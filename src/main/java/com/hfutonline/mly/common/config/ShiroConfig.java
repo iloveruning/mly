@@ -213,10 +213,8 @@ public class ShiroConfig {
         Map<String, String> hashMap = new LinkedHashMap<>();
         hashMap.put("/statics/**", "anon");
         hashMap.put("/favicon.ico", "anon");
-        hashMap.put("/swagger/**", "anon");
-        hashMap.put("/v2/api-docs", "anon");
         hashMap.put("/swagger-ui.html", "anon");
-        hashMap.put("/swagger-resources/**", "anon");
+        hashMap.put("/webjars/**", "anon");
 
         hashMap.put("/login", "anon");
         hashMap.put("/captcha", "anon");
