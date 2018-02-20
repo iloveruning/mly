@@ -66,7 +66,7 @@ var vm = new Vue({
                 $.ajax({
                     type: "POST",
                     url: baseURL + "sys/menu/delete",
-                    data: "id=" + id,
+                    data: "id=" + menuId,
                     success: function(r){
                         if(r.code === 200){
                             alert('操作成功', function(){

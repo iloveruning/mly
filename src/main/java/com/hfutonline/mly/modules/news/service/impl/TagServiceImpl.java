@@ -1,16 +1,18 @@
-package io.renren.mly.modules.news.service.impl;
+package com.hfutonline.mly.modules.news.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.Map;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.hfutonline.mly.common.utils.PageUtils;
-import com.hfutonline.mly.common.utils.Query;
+import com.hfutonline.mly.common.utils.PageInfo;
+import com.hfutonline.mly.common.utils.PageQuery;
+import com.hfutonline.mly.modules.news.entity.Tag;
+import com.hfutonline.mly.modules.news.mapper.TagMapper;
+import com.hfutonline.mly.modules.news.service.TagService;
 
-import io.renren.mly.modules.news.dao.TagDao;
-import io.renren.mly.modules.news.entity.TagEntity;
-import io.renren.mly.modules.news.service.TagService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 
 @Service("tagService")

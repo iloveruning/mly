@@ -2,22 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <title></title>
-		<#include "/header.html">
+    <title>标签管理</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" th:href="@{/statics/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/statics/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/statics/plugins/jqgrid/ui.jqgrid-bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/statics/plugins/ztree/css/metroStyle/metroStyle.css}">
+    <link rel="stylesheet" th:href="@{/statics/css/main.css}">
+    <script th:src="@{/statics/libs/jquery.min.js}"></script>
+    <script th:src="@{/statics/plugins/layer/layer.js}"></script>
+    <script th:src="@{/statics/libs/bootstrap.min.js}"></script>
+    <script th:src="@{/statics/libs/vue.min.js}"></script>
+    <script th:src="@{/statics/plugins/jqgrid/grid.locale-cn.js}"></script>
+    <script th:src="@{/statics/plugins/jqgrid/jquery.jqGrid.min.js}"></script>
+    <script th:src="@{/statics/plugins/ztree/jquery.ztree.all.min.js}"></script>
+    <script th:src="@{/statics/js/common.js}"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-			<#if shiro.hasPermission("news:tag:save")>
-            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-			</#if>
-			<#if shiro.hasPermission("news:tag:update")>
-            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-			</#if>
-			<#if shiro.hasPermission("news:tag:delete")>
-            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
-			</#if>
+
+            <a shiro:hasPermission="news:tag:save" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+
+            <a shiro:hasPermission="news:tag:update" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+
+            <a shiro:hasPermission="news:tag:delete" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>

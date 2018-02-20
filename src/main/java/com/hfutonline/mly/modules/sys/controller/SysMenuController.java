@@ -178,10 +178,10 @@ public class SysMenuController {
     @SysLog("删除菜单")
     @PostMapping("/delete")
     @RequiresPermissions("sys:menu:delete")
-    public Result delete(@RequestBody Integer menuId) {
-        if (menuId <= 45) {
+    public Result delete(@RequestParam("id") Integer menuId) {
+       /* if (menuId <= 45) {
             return Result.error("系统菜单，不能删除");
-        }
+        }*/
 
 
         //判断是否有子菜单或按钮

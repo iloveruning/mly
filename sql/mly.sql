@@ -94,5 +94,41 @@ INSERT INTO `sys_menu`(`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`
 INSERT INTO `sys_menu`(`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES (39, 36, '修改', NULL, 'sys:dict:update', 2, NULL, 6);
 INSERT INTO `sys_menu`(`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES (40, 36, '删除', NULL, 'sys:dict:delete', 2, NULL, 6);
 
+DROP TABLE IF EXISTS `tags`;
+CREATE TABLE `tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '新闻标签的id号',
+  `name` varchar(32) NOT NULL COMMENT '新闻标签的名字',
+  `pid` int(11) NOT NULL DEFAULT '0' COMMENT '父级标签的id号',
+  `user_id` int(11) NOT NULL COMMENT '创建标签的管理员ID号',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '标签创建的时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '标签最后被修改的时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tag_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签管理';
+
+
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE `article` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '新闻id',
+  `title` varchar(255) NOT NULL COMMENT '标题',
+  `summary` varchar(255) DEFAULT NULL COMMENT '摘要',
+  `content` text NOT NULL COMMENT '内容',
+  `author` varchar(32) NOT NULL COMMENT '作者',
+  `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态：0-未审核，1-审核未通过，2-审核通过，3-优秀',
+  `cover` varchar(255) DEFAULT NULL COMMENT '新闻封面',
+  `read` int(11) NOT NULL DEFAULT '0' COMMENT '阅读量',
+  `user_id` int(11) NOT NULL COMMENT '发布文章的管理员',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '新闻提交到后台的时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '新闻最后被修改的时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文章管理';
+
+DROP TABLE IF EXISTS `article_tag`;
+CREATE TABLE `article_tag` (
+  `article_id` bigint(20) NOT NULL COMMENT '新闻ID',
+  `tag_id` int(11) NOT NULL COMMENT '标签ID',
+  PRIMARY KEY (`article_id`,`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
