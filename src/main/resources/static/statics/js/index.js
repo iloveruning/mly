@@ -66,14 +66,14 @@ var vm = new Vue({
 				content: jQuery("#passwordLayer"),
 				btn: ['修改','取消'],
 				btn1: function (index) {
-					var data = "password="+vm.password+"&newPassword="+vm.newPassword;
+					var data = "old="+vm.password+"&new="+vm.newPassword;
 					$.ajax({
 						type: "POST",
 					    url: "sys/user/password",
 					    data: data,
 					    dataType: "json",
 					    success: function(result){
-							if(result.code == 0){
+							if(result.code == 200){
 								layer.close(index);
 								layer.alert('修改成功', function(index){
 									location.reload();

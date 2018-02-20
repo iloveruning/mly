@@ -65,6 +65,7 @@ public class RealmKit implements IShiro {
         ShiroUser shiroUser = new ShiroUser();
         shiroUser.setId(user.getId());
         shiroUser.setName(user.getUsername());
+        shiroUser.setSalt(user.getSalt());
         return shiroUser;
     }
 

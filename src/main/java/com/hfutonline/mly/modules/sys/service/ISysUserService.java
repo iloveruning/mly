@@ -21,4 +21,9 @@ public interface ISysUserService extends IService<SysUser> {
 
     List<Integer> getUserRoleIds(Integer userId);
 
+    void save(SysUser user);
+
+    void update(SysUser user);
+
+    boolean updatePassword(Integer userId, String password, String newPassword);
 }

@@ -30,7 +30,7 @@ var vm = new Vue({
             //加载菜单树
             $.get(baseURL + "sys/menu/select", function(r){
                 ztree = $.fn.zTree.init($("#menuTree"), setting, r.menuList);
-                var node = ztree.getNodeByParam("menuId", vm.menu.pid);
+                var node = ztree.getNodeByParam("id", vm.menu.pid);
                 ztree.selectNode(node);
 
                 vm.menu.parentName = node.name;
@@ -68,7 +68,7 @@ var vm = new Vue({
                     url: baseURL + "sys/menu/delete",
                     data: "id=" + id,
                     success: function(r){
-                        if(r.code === 0){
+                        if(r.code === 200){
                             alert('操作成功', function(){
                                 vm.reload();
                             });
@@ -84,14 +84,14 @@ var vm = new Vue({
                 return ;
             }
 
-            var url = vm.menu.menuId == null ? "sys/menu/save" : "sys/menu/update";
+            var url = vm.menu.id == null ? "sys/menu/save" : "sys/menu/update";
             $.ajax({
                 type: "POST",
                 url:  baseURL + url,
                 contentType: "application/json",
                 data: JSON.stringify(vm.menu),
                 success: function(r){
-                    if(r.code === 0){
+                    if(r.code === 200){
                         alert('操作成功', function(){
                             vm.reload();
                         });

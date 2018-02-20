@@ -17,4 +17,6 @@ public class ShiroUser implements Serializable {
 
     private String name;
 
+    private String salt;
+
 }

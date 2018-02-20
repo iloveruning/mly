@@ -130,18 +130,18 @@ var vm = new Vue({
             var nodes = ztree.getCheckedNodes(true);
             var menuIdList = new Array();
             for(var i=0; i<nodes.length; i++) {
-                menuIdList.push(nodes[i].menuId);
+                menuIdList.push(nodes[i].id);
             }
             vm.role.menuIdList = menuIdList;
 
-            var url = vm.role.roleId == null ? "sys/role/save" : "sys/role/update";
+            var url = vm.role.id == null ? "sys/role/save" : "sys/role/update";
             $.ajax({
                 type: "POST",
                 url: baseURL + url,
                 contentType: "application/json",
                 data: JSON.stringify(vm.role),
                 success: function(r){
-                    if(r.code === 0){
+                    if(r.code === 200){
                         alert('操作成功', function(){
                             vm.reload();
                         });

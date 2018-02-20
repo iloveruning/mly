@@ -23,4 +23,5 @@ public interface ISysMenuService extends IService<SysMenu> {
      */
     List<SysMenu> getUserMenus(Integer userId);
 
+    void delete(Integer menuId);
 }

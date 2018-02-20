@@ -9,6 +9,8 @@ server:
 
 # mysql
 spring:
+    application:
+      name: mly-system
     # 环境 dev|test|prod
     profiles:
         active: dev
@@ -28,6 +30,13 @@ spring:
         proxy-target-class: true #false为启用jdk默认动态代理,true为cglib动态代理
     resources:
          static-locations: classpath:/META-INF/resources/,classpath:/static/
+    boot:
+        admin:
+           client:
+              prefer-ip: true
+              enabled: true
+           url: http://127.0.0.1:${server.port}${server.context-path}
+           context-path: /admin
 
 #    redis:
 #        database: 0
@@ -81,7 +90,20 @@ mybatis-plus:
     aggressive-lazy-loading: false
     lazy-loading-enabled: true
     default-executor-type: reuse
-    return-instance-for-empty-row: true
+    #return-instance-for-empty-row: true
 #logging
 logging:
   level: debug
+
+management:
+  security:
+    enabled: false
+  context-path: /admin
+
+info: #定义各种额外的详情给服务端显示
+  app:
+    name: "@project.name@" #从pom.xml中获取
+    description: "@project.description@"
+    version: "@project.version@"
+    spring-boot-version: "@project.parent.version@"
+

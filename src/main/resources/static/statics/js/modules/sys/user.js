@@ -110,14 +110,15 @@ var vm = new Vue({
                 return ;
             }
 
-            var url = vm.user.userId == null ? "sys/user/save" : "sys/user/update";
+            console.log(vm.user.id);
+            var url = vm.user.id == null ? "sys/user/save" : "sys/user/update";
             $.ajax({
                 type: "POST",
                 url: baseURL + url,
                 contentType: "application/json",
                 data: JSON.stringify(vm.user),
                 success: function(r){
-                    if(r.code === 0){
+                    if(r.code === 200){
                         alert('操作成功', function(){
                             vm.reload();
                         });

@@ -21,4 +21,12 @@ public interface ISysRoleService extends IService<SysRole> {
 
 
     List<Integer> getRoleMenuIds(Integer roleId);
+
+    void save(SysRole role);
+
+    void update(SysRole role);
+
+    void deleteBatch(Integer[] roleIds);
+
+    void delete(Integer roleId);
 }

@@ -213,8 +213,24 @@ public class ShiroConfig {
         Map<String, String> hashMap = new LinkedHashMap<>();
         hashMap.put("/statics/**", "anon");
         hashMap.put("/favicon.ico", "anon");
-        hashMap.put("/swagger-ui.html", "anon");
         hashMap.put("/webjars/**", "anon");
+
+        hashMap.put("/admin/**","anon");
+        hashMap.put("/api/**","anon");
+        hashMap.put("/health/**","anon");
+        hashMap.put("/env/**","anon");
+        hashMap.put("/metrics/**","anon");
+        hashMap.put("/trace/**","anon");
+        hashMap.put("/dump/**","anon");
+        hashMap.put("/jolokia/**","anon");
+        hashMap.put("/info/**","anon");
+        hashMap.put("/logfile/**","anon");
+        hashMap.put("/refresh/**","anon");
+        hashMap.put("/flyway/**","anon");
+        hashMap.put("/liquibase/**","anon");
+        hashMap.put("/heapdump/**","anon");
+        hashMap.put("/loggers/**","anon");
+        hashMap.put("/auditevents/**","anon");
 
         hashMap.put("/login", "anon");
         hashMap.put("/captcha", "anon");
@@ -222,6 +238,9 @@ public class ShiroConfig {
         hashMap.put("/register", "anon");
         hashMap.put("/kickout", "anon");
         hashMap.put("/logout","logout");
+
+
+        hashMap.put("/druid/sql.html","perms[sys:sql]");
         //hashMap.put("/","user");filterMap.put("/swagger/**", "anon");
         //        filterMap.put("/v2/api-docs", "anon");
         //        filterMap.put("/swagger-ui.html", "anon");
@@ -238,7 +257,8 @@ public class ShiroConfig {
         //hashMap.put("/global/sessionError", "anon");
         //验证码
         // hashMap.put("/kaptcha", "anon");
-        hashMap.put("/**", "user,kickout");
+        //hashMap.put("/**", "user,kickout");
+        hashMap.put("/**", "authc");
         //hashMap.put("/**", "kickout");
         shiroFilter.setFilterChainDefinitionMap(hashMap);
         return shiroFilter;

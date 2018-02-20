@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class SysRole implements Serializable {
     /**
      * 角色名称
      */
+    @NotBlank(message="角色名称不能为空")
     private String name;
     /**
      * 备注

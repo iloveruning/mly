@@ -45,6 +45,7 @@ public class SysUser implements Serializable {
     /**
      * 盐
      */
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String salt;
     /**
      * 邮箱

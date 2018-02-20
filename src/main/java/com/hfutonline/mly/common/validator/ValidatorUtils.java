@@ -1,6 +1,7 @@
 package com.hfutonline.mly.common.validator;
 
 import com.hfutonline.mly.common.exception.MlyException;
+import com.hfutonline.mly.common.exception.ParamsException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -32,7 +33,7 @@ public class ValidatorUtils {
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object, groups);
         if (!constraintViolations.isEmpty()) {
             ConstraintViolation<Object> constraint = constraintViolations.iterator().next();
-            throw new MlyException(constraint.getMessage());
+            throw new ParamsException(constraint.getMessage());
         }
     }
 }

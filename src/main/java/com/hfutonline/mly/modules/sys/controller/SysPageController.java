@@ -20,7 +20,7 @@ public class SysPageController {
         return "modules/" + module + "/" + url;
     }
 
-    @GetMapping(value = {"/", "index"})
+    @GetMapping(value = {/*"/",*/ "index"})
     public String index(Model model){
         model.addAttribute("username", ShiroKit.getUserName());
         return "index";
