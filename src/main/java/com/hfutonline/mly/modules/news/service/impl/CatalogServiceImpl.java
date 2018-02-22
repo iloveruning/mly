@@ -5,24 +5,24 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.common.utils.PageQuery;
-import com.hfutonline.mly.modules.news.entity.Tag;
-import com.hfutonline.mly.modules.news.mapper.TagMapper;
-import com.hfutonline.mly.modules.news.service.TagService;
+import com.hfutonline.mly.modules.news.entity.Catalog;
+import com.hfutonline.mly.modules.news.mapper.CatalogMapper;
+import com.hfutonline.mly.modules.news.service.CatalogService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
-@Service("tagService")
-public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
+@Service("catalogService")
+public class CatalogServiceImpl extends ServiceImpl<CatalogMapper, Catalog> implements CatalogService {
 
     @Override
     public PageInfo queryPage(Map<String, Object> params) {
         String username = (String)params.get("username");
-        Page<Tag> page=new PageQuery<Tag>(params).getPageParam();
+        Page<Catalog> page=new PageQuery<Catalog>(params).getPageParam();
         page=this.selectPage(page,
-                new EntityWrapper<Tag>().like(StringUtils.isNotBlank(username),"username", username));
+                new EntityWrapper<Catalog>().like(StringUtils.isNotBlank(username),"username", username));
         return new PageInfo<>(page);
     }
 

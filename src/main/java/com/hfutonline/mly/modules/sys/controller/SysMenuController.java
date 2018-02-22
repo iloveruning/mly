@@ -55,7 +55,7 @@ public class SysMenuController {
     @GetMapping("/list")
     @RequiresPermissions("sys:menu:list")
     public List<SysMenu> list() {
-        List<SysMenu> menuList = menuService.selectList(null);
+        List<SysMenu> menuList = menuService.selectList(new EntityWrapper<SysMenu>().orderBy("order_num",true));
         //目录
         List<SysMenu> catlog = new ArrayList<>();
         //菜单
@@ -106,7 +106,7 @@ public class SysMenuController {
     @RequiresPermissions("sys:menu:select")
     public Result select() {
         //查询列表数据
-        List<SysMenu> menuList = menuService.selectList(null);
+        List<SysMenu> menuList = menuService.selectList(new EntityWrapper<SysMenu>().orderBy("order_num",true));
 
         Iterator<SysMenu> it = menuList.iterator();
         SysMenu menu;

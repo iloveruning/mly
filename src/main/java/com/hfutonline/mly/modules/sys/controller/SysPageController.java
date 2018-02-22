@@ -1,6 +1,7 @@
 package com.hfutonline.mly.modules.sys.controller;
 
 import com.hfutonline.mly.modules.sys.shiro.tool.ShiroKit;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +27,10 @@ public class SysPageController {
         return "index";
     }
 
-    @GetMapping("index1.html")
-    public String index1(){
-        return "index1";
+    @GetMapping("/upload")
+    @RequiresPermissions("news:file:upload")
+    public String upload(){
+        return "modules/news/upload";
     }
 
     @GetMapping("login")

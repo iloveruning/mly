@@ -5,24 +5,24 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.common.utils.PageQuery;
-import com.hfutonline.mly.modules.news.entity.Tag;
-import com.hfutonline.mly.modules.news.mapper.TagMapper;
-import com.hfutonline.mly.modules.news.service.TagService;
+import com.hfutonline.mly.modules.news.entity.ArticleCatalog;
+import com.hfutonline.mly.modules.news.mapper.ArticleCatalogMapper;
+import com.hfutonline.mly.modules.news.service.ArticleCatalogService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 
-@Service("tagService")
-public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
+@Service("articleCatalogService")
+public class ArticleCatalogServiceImpl extends ServiceImpl<ArticleCatalogMapper, ArticleCatalog> implements ArticleCatalogService {
 
     @Override
     public PageInfo queryPage(Map<String, Object> params) {
         String username = (String)params.get("username");
-        Page<Tag> page=new PageQuery<Tag>(params).getPageParam();
+        Page<ArticleCatalog> page=new PageQuery<ArticleCatalog>(params).getPageParam();
         page=this.selectPage(page,
-                new EntityWrapper<Tag>().like(StringUtils.isNotBlank(username),"username", username));
+                new EntityWrapper<ArticleCatalog>().like(StringUtils.isNotBlank(username),"username", username));
         return new PageInfo<>(page);
     }
 

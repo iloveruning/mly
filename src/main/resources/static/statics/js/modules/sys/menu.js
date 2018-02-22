@@ -180,7 +180,7 @@ Menu.initColumn = function () {
 
 function getMenuId () {
     var selected = $('#menuTable').bootstrapTreeTable('getSelections');
-    if (selected.length == 0) {
+    if (selected.length === 0) {
         alert("请选择一条记录");
         return false;
     } else {

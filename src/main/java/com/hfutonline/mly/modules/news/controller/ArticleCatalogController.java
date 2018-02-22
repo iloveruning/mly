@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018-02-21 15:42:00
  */
 @RestController
-@RequestMapping("news/articletag")
-public class ArticleTagController {
-
+@RequestMapping("news/articlecatalog")
+public class ArticleCatalogController {
 
 
 }

@@ -40,7 +40,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         List<SysMenu> menuList;
         if (userId == Constant.SUPER_ADMIN) {
-            menuList = baseMapper.selectList(null);
+            menuList = baseMapper.selectList(new EntityWrapper<SysMenu>().orderBy("order_num",true));
         } else {
             menuList = baseMapper.queryUserMenus(userId);
         }

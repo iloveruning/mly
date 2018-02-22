@@ -96,13 +96,11 @@ INSERT INTO `sys_menu`(`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`
 
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE `tags` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '新闻标签的id号',
-  `name` varchar(32) NOT NULL COMMENT '新闻标签的名字',
-  `pid` int(11) NOT NULL DEFAULT '0' COMMENT '父级标签的id号',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标签的id号',
+  `name` varchar(32) NOT NULL COMMENT '标签的名字',
   `user_id` int(11) NOT NULL COMMENT '创建标签的管理员ID号',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '标签创建的时间',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '标签最后被修改的时间',
-  PRIMARY KEY (`id`),
+   PRIMARY KEY (`id`),
   UNIQUE KEY `tag_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签管理';
 
@@ -110,14 +108,17 @@ CREATE TABLE `tags` (
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '新闻id',
-  `title` varchar(255) NOT NULL COMMENT '标题',
+  `title` varchar(50) NOT NULL COMMENT '标题',
   `summary` varchar(255) DEFAULT NULL COMMENT '摘要',
   `content` text NOT NULL COMMENT '内容',
   `author` varchar(32) NOT NULL COMMENT '作者',
   `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态：0-未审核，1-审核未通过，2-审核通过，3-优秀',
-  `cover` varchar(255) DEFAULT NULL COMMENT '新闻封面',
+  `weight` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '文章权重1-100',
+  `copy_from` VARCHAR(50) NOT NULL DEFAULT '明理苑' COMMENT '文章来源',
+  `cover` varchar(100) DEFAULT NULL COMMENT '新闻封面',
   `read` int(11) NOT NULL DEFAULT '0' COMMENT '阅读量',
-  `user_id` int(11) NOT NULL COMMENT '发布文章的管理员',
+  `username` VARCHAR(32) NOT NULL COMMENT '发布文章的管理员',
+  `publish_time` TIMESTAMP NOT NULL DEFAULT current_timestamp COMMENT '文章上显示的时间',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '新闻提交到后台的时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '新闻最后被修改的时间',
   PRIMARY KEY (`id`),
@@ -126,9 +127,37 @@ CREATE TABLE `article` (
 
 DROP TABLE IF EXISTS `article_tag`;
 CREATE TABLE `article_tag` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
   `article_id` bigint(20) NOT NULL COMMENT '新闻ID',
   `tag_id` int(11) NOT NULL COMMENT '标签ID',
-  PRIMARY KEY (`article_id`,`tag_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `catalog`;
+CREATE TABLE `catalog` (
+  `id`  int NOT NULL AUTO_INCREMENT COMMENT '栏目id' ,
+  `pid`  int NOT NULL DEFAULT 0 COMMENT '父级id' ,
+  `name`  varchar(64) NOT NULL COMMENT '栏目名' ,
+  `description`  varchar(150) NULL COMMENT '描述' ,
+  `icon`  varchar(100) NULL COMMENT '栏目图标' ,
+  `user_id`  int NOT NULL COMMENT '创建者id' ,
+  `create_time`  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' ,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `catalog_name` (`name`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='栏目';
+
+DROP TABLE IF EXISTS `article_catalog`;
+CREATE TABLE `article_catalog` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `article_id` BIGINT NOT NULL COMMENT '文章id',
+  `catalog_id` INT NOT NULL COMMENT '栏目id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+
+
 
 

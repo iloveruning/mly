@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.hfutonline.mly.modules.news.mapper.NewsMapper">
+<mapper namespace="com.hfutonline.mly.modules.news.mapper.ArticleMapper">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.hfutonline.mly.modules.news.entity.Article" id="newsMap">
+    <resultMap type="com.hfutonline.mly.modules.news.entity.Article" id="articleMap">
         <result property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="summary" column="summary"/>
         <result property="content" column="content"/>
         <result property="author" column="author"/>
         <result property="state" column="state"/>
+        <result property="weight" column="weight"/>
+        <result property="copyFrom" column="copy_from"/>
         <result property="cover" column="cover"/>
         <result property="read" column="read"/>
-        <result property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="publishTime" column="publish_time"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
+
+    <select id="queryList" resultType="com.hfutonline.mly.modules.news.entity.Article">
+        SELECT id,title,state,weight,`read`,username,create_time AS createTime
+        FROM article
+        ORDER BY createTime DESC
+    </select>
+
+    <select id="queryDetail" resultType="com.hfutonline.mly.modules.news.entity.Article">
+        SELECT title,summary,content,copy_from AS copyFrom,publish_time AS publishTime
+        FROM article
+        WHERE id=#{id}
+    </select>
 
 
 </mapper>

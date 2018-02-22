@@ -14,23 +14,24 @@ import java.io.Serializable;
  * @date 2018-02-21 15:42:00
  */
 @Data
-@TableName("article_tag")
-public class ArticleTag implements Serializable {
+@TableName("article_catalog")
+public class ArticleCatalog implements Serializable {
 
-	private static final long serialVersionUID = 8239655810196911860L;
+
+	private static final long serialVersionUID = 621887456993324547L;
 	/**
 	 * id
 	 */
 	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
-	 * 新闻ID
+	 * 文章id
 	 */
 	private Long articleId;
 	/**
-	 * 标签ID
+	 * 栏目id
 	 */
-	private Integer tagId;
+	private Integer catalogId;
 
 
 }

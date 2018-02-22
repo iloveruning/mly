@@ -1,9 +1,12 @@
 package com.hfutonline.mly.modules.news.controller;
 
+import com.hfutonline.mly.common.exception.ParamsException;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.common.utils.Result;
+import com.hfutonline.mly.common.validator.ValidatorUtils;
 import com.hfutonline.mly.modules.news.entity.Tag;
 import com.hfutonline.mly.modules.news.service.TagService;
+import com.hfutonline.mly.modules.sys.shiro.tool.ShiroKit;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +16,10 @@ import java.util.Map;
 
 
 /**
- * 
+ * 标签管理
  *
  * @author chenliangliang
- * @email chenliangliang68@163.com
- * @date 2018-02-20 22:56:06
+ * @date 2018-02-21 15:41:59
  */
 @RestController
 @RequestMapping("news/tag")
@@ -26,7 +28,7 @@ public class TagController {
     private TagService tagService;
 
     @Autowired
-    protected  TagController(TagService tagService) {
+    protected TagController(TagService tagService) {
         this.tagService = tagService;
     }
 
@@ -48,7 +50,7 @@ public class TagController {
     @GetMapping("/info/{id}")
     @RequiresPermissions("news:tag:info")
     public Result info(@PathVariable("id") Integer id) {
-            Tag tag = tagService.selectById(id);
+        Tag tag = tagService.selectById(id);
 
         return Result.OK().put("tag", tag);
     }
@@ -59,8 +61,14 @@ public class TagController {
     @PostMapping("/save")
     @RequiresPermissions("news:tag:save")
     public Result save(@RequestBody Tag tag) {
-            tagService.insert(tag);
 
+        try {
+            ValidatorUtils.validateEntity(tag);
+            tag.setUsername(ShiroKit.getUserName());
+            tagService.insert(tag);
+        } catch (ParamsException e) {
+            return Result.error(e.getMsg());
+        }
         return Result.OK();
     }
 
@@ -70,7 +78,13 @@ public class TagController {
     @PostMapping("/update")
     @RequiresPermissions("news:tag:update")
     public Result update(@RequestBody Tag tag) {
+
+        try {
+            ValidatorUtils.validateEntity(tag);
             tagService.updateById(tag);
+        } catch (ParamsException e) {
+            return Result.error(e.getMsg());
+        }
 
         return Result.OK();
     }
@@ -80,8 +94,8 @@ public class TagController {
      */
     @PostMapping("/delete")
     @RequiresPermissions("news:tag:delete")
-    public Result delete(@RequestBody Integer[]ids) {
-            tagService.deleteBatchIds(Arrays.asList(ids));
+    public Result delete(@RequestBody Integer[] ids) {
+        tagService.deleteBatchIds(Arrays.asList(ids));
 
         return Result.OK();
     }

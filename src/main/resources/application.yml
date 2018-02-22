@@ -30,6 +30,7 @@ spring:
         proxy-target-class: true #false为启用jdk默认动态代理,true为cglib动态代理
     resources:
          static-locations: classpath:/META-INF/resources/,classpath:/static/
+    #spring boot admin
     boot:
         admin:
            client:
@@ -58,7 +59,7 @@ spring:
 
 
 
-#mybatis
+#mybatis-plus
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔

@@ -63,7 +63,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SPRING_WEB)
                 .pathMapping("/")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.hfutonline.mly.modules.sys.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.hfutonline.mly.modules"))
                 .build()
                 .apiInfo(apiInfo());
     }

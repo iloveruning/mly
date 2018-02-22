@@ -13,11 +13,10 @@ import java.util.Map;
 
 
 /**
- * 
+ * 文章管理
  *
  * @author chenliangliang
- * @email chenliangliang68@163.com
- * @date 2018-02-20 22:56:06
+ * @date 2018-02-21 15:42:00
  */
 @RestController
 @RequestMapping("news/article")
@@ -36,22 +35,43 @@ public class ArticleController {
     @GetMapping("/list")
     @RequiresPermissions("news:article:list")
     public Result list(@RequestParam Map<String, Object> params) {
+        System.out.println(params);
         PageInfo page = articleService.queryPage(params);
 
         return Result.OK().put("page", page);
     }
 
 
+    @GetMapping("/info/{id}")
+    @RequiresPermissions("news:article:info")
+    public Result detail(@PathVariable("id") Long id){
+
+        Article article=articleService.getDetail(id);
+        return Result.OK().put("article",article);
+    }
+
+
+    /**
+     * 审核文章
+     */
+    @GetMapping("/audit/{id}")
+    @RequiresPermissions("news:article:audit")
+    public Result audit(@PathVariable("id") Long id){
+
+        return Result.error("您无审核权限");
+    }
+
+
     /**
      * 信息
      */
-    @GetMapping("/info/{id}")
-    @RequiresPermissions("news:article:info")
-    public Result info(@PathVariable("id") Long id) {
-            Article article = articleService.selectById(id);
-
-        return Result.OK().put("article", article);
-    }
+//    @GetMapping("/info/{id}")
+//    @RequiresPermissions("news:article:info")
+//    public Result info(@PathVariable("id") Long id) {
+//            Article article = articleService.selectById(id);
+//
+//        return Result.OK().put("article", article);
+//    }
 
     /**
      * 保存

@@ -3,11 +3,10 @@ $(function () {
         url: baseURL + 'news/tag/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '新闻标签的名字', name: 'name', index: 'name', width: 80 }, 			
-			{ label: '父级标签的id号', name: 'pid', index: 'pid', width: 80 }, 			
-			{ label: '创建标签的管理员ID号', name: 'userId', index: 'user_id', width: 80 }, 			
-			{ label: '标签创建的时间', name: 'createTime', index: 'create_time', width: 80 }			
+			{ label: '标签ID', name: 'id', index: 'id', width: 50, key: true },
+			{ label: '标签名字', name: 'name', index: 'name', width: 80 },
+			{ label: '创建者', name: 'username', index: 'username', width: 80 },
+			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 }
         ],
 		viewrecords: true,
         height: 385,
@@ -70,7 +69,7 @@ var vm = new Vue({
                 contentType: "application/json",
 			    data: JSON.stringify(vm.tag),
 			    success: function(r){
-			    	if(r.code === 0){
+			    	if(r.code === 200){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
@@ -93,7 +92,7 @@ var vm = new Vue({
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
-						if(r.code == 0){
+						if(r.code === 200){
 							alert('操作成功', function(index){
 								$("#jqGrid").trigger("reloadGrid");
 							});

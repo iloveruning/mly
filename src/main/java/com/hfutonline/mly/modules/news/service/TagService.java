@@ -7,10 +7,10 @@ import com.hfutonline.mly.modules.news.entity.Tag;
 import java.util.Map;
 
 /**
- * 
+ * 标签管理
  *
  * @author chenliangliang
- * @date 2018-02-20 22:56:06
+ * @date 2018-02-21 15:41:59
  */
 public interface TagService extends IService<Tag> {
 
