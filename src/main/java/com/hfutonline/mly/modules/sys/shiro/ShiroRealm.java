@@ -10,6 +10,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
@@ -59,6 +60,25 @@ public class ShiroRealm extends AuthorizingRealm {
         // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
         return shiro.info(shiroUser, user, super.getName());
 
+    }
+
+    /**
+     * 清除缓存中所有的权限认证信息
+     */
+    public void clearAllCachedAuthorizationInfo(){
+
+        Cache<Object, AuthorizationInfo> cache = this.getAuthorizationCache();
+        if (cache!=null){
+            cache.clear();
+        }
+
+    }
+
+    /**
+     * 清除缓存中当前用户的权限认证信息
+     */
+    public void clearCachedAuthorization(PrincipalCollection principals){
+       this.clearCachedAuthorizationInfo(principals);
     }
 
 }

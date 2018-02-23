@@ -155,6 +155,22 @@ CREATE TABLE `article_catalog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `app`;
+CREATE TABLE `app` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标识一个注册app应用的id号',
+  `acount` varchar(255) NOT NULL COMMENT '应用的账号',
+  `secret` varchar(255) NOT NULL COMMENT '登录密码',
+  `app_name` varchar(255) NOT NULL COMMENT '应用名称',
+  `ip` varchar(255) NOT NULL COMMENT '允许通过登录的IP',
+  `user_id` int(11) DEFAULT NULL COMMENT '创建应用的管理员ID号',
+  `born_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '应用创建的时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '应用更新的时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `acount` (`acount`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='应用表';
+
+
 
 
 

@@ -254,5 +254,4 @@ public class ShiroKit {
         return shiroUser == null ? null : shiroUser.getId();
     }
 
-
 }

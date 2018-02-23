@@ -44,13 +44,13 @@
             memoryStoreEvictionPolicy="LRU" />
 
     <!-- 全局变量：永不过期-->
-    <cache name="shiroSession"
-           maxElementsInMemory="50000"
+    <cache name="sysMenu"
+           maxElementsInMemory="5000"
            eternal="true"
            clearOnFlush="false"
            overflowToDisk="true"
            diskSpoolBufferSizeMB="1024"
-           maxElementsOnDisk="100000"
+           maxElementsOnDisk="10000"
            diskPersistent="false"
            diskExpiryThreadIntervalSeconds="120"
            memoryStoreEvictionPolicy="LFU"

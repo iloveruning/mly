@@ -95,13 +95,18 @@ Catalog.initColumn = function () {
     var columns = [
         {field: 'selectItem', radio: true},
         {title: '栏目ID', field: 'id', visible: false, align: 'center', valign: 'middle', width: '80px'},
-        {title: '栏目名称', field: 'name', align: 'center', valign: 'middle', sortable: true, width: '180px'},
-        {title: '上级栏目', field: 'parentName', align: 'center', valign: 'middle', sortable: true, width: '180px'},
+        {title: '栏目名称', field: 'name', align: 'center', valign: 'middle', sortable: true, width: '1580px'},
+        {title: '上级栏目', field: 'parentName', align: 'center', valign: 'middle', sortable: true, width: '150px'},
         {title: '图标', field: 'icon', align: 'center', valign: 'middle', sortable: true, width: '100px', formatter: function(item, index){
                 return item.icon == null ? '' : '<i class="'+item.icon+' fa-lg"></i>';
             }},
-        {title: '栏目描述', field: 'description', align: 'center', valign: 'middle', sortable: false, width: '250px'},
-        {title: '创建者', field: 'username', align: 'center', valign: 'middle', sortable: false,width: '180px'},
+        {title: '栏目描述', field: 'description', align: 'center', valign: 'middle', sortable: false, width: '200px'},
+        {title: '类型', field: 'type', align: 'center', valign: 'middle', sortable: false, width: '120px', formatter: function (item, index) {
+				return item.type === 0 ?
+					'<span class="label label-primary">版块</span>' :
+                    '<span class="label label-success">栏目</span>';
+            }},
+        {title: '创建者', field: 'username', align: 'center', valign: 'middle', sortable: false,width: '150px'},
         {title: '创建时间', field: 'createTime', align: 'center', valign: 'middle', sortable: false}
 	]
     return columns;

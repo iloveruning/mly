@@ -43,6 +43,10 @@ public class Catalog implements Serializable {
 	 */
 	private String icon;
 	/**
+	 * 类型：0-版块，1-栏目
+	 */
+	private Integer type;
+	/**
 	 * 创建者id
 	 */
 	private String username;

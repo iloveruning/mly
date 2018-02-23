@@ -6,9 +6,12 @@ import com.hfutonline.mly.common.annotation.SysLog;
 import com.hfutonline.mly.common.exception.ParamsException;
 import com.hfutonline.mly.common.exception.TransactionException;
 import com.hfutonline.mly.common.utils.Constant;
+import com.hfutonline.mly.common.utils.EhcacheTemplate;
 import com.hfutonline.mly.common.utils.Result;
+import com.hfutonline.mly.common.utils.ThreadExecutorUtil;
 import com.hfutonline.mly.modules.sys.entity.SysMenu;
 import com.hfutonline.mly.modules.sys.service.ISysMenuService;
+import com.hfutonline.mly.modules.sys.shiro.ShiroRealm;
 import com.hfutonline.mly.modules.sys.shiro.tool.ShiroKit;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -34,9 +37,19 @@ public class SysMenuController {
 
     private ISysMenuService menuService;
 
+    private ShiroRealm shiroRealm;
+
+    private EhcacheTemplate cacheTemplate;
+
+    private final String cacheName = "sysMenu";
+
+    private final String prefix = "menu_";
+
     @Autowired
-    protected SysMenuController(ISysMenuService menuService) {
+    protected SysMenuController(ISysMenuService menuService, ShiroRealm shiroRealm, EhcacheTemplate cacheTemplate) {
         this.menuService = menuService;
+        this.shiroRealm = shiroRealm;
+        this.cacheTemplate = cacheTemplate;
     }
 
 
@@ -44,9 +57,13 @@ public class SysMenuController {
      * 导航菜单
      */
     @GetMapping("/nav")
-    public Result nav() {
-        List<SysMenu> menuList = menuService.getUserMenus(ShiroKit.getUserId());
-        return Result.OK().put("menuList", menuList);
+    public Result nav() throws Exception {
+        Integer userId = ShiroKit.getUserId();
+        return cacheTemplate.cacheable(cacheName, prefix + "nav_" + userId, () -> {
+            List<SysMenu> menuList = menuService.getUserMenus(userId);
+            return Result.OK().put("menuList", menuList);
+        });
+
     }
 
     /**
@@ -55,7 +72,7 @@ public class SysMenuController {
     @GetMapping("/list")
     @RequiresPermissions("sys:menu:list")
     public List<SysMenu> list() {
-        List<SysMenu> menuList = menuService.selectList(new EntityWrapper<SysMenu>().orderBy("order_num",true));
+        List<SysMenu> menuList = menuService.selectList(new EntityWrapper<SysMenu>().orderBy("order_num", true));
         //目录
         List<SysMenu> catlog = new ArrayList<>();
         //菜单
@@ -106,7 +123,7 @@ public class SysMenuController {
     @RequiresPermissions("sys:menu:select")
     public Result select() {
         //查询列表数据
-        List<SysMenu> menuList = menuService.selectList(new EntityWrapper<SysMenu>().orderBy("order_num",true));
+        List<SysMenu> menuList = menuService.selectList(new EntityWrapper<SysMenu>().orderBy("order_num", true));
 
         Iterator<SysMenu> it = menuList.iterator();
         SysMenu menu;
@@ -124,6 +141,7 @@ public class SysMenuController {
         root.setOpen(true);
         menuList.add(root);
 
+
         return Result.OK().put("menuList", menuList);
     }
 
@@ -138,6 +156,11 @@ public class SysMenuController {
         try {
             verifyMenu(menu);
             menuService.insert(menu);
+            //清除权限缓存重新加载
+            //PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
+            //shiroRealm.clearCachedAuthorization(principals);
+            //异步执行
+            ThreadExecutorUtil.execute(shiroRealm::clearAllCachedAuthorizationInfo);
             return Result.OK();
         } catch (ParamsException e) {
             return Result.error(e.getMsg());

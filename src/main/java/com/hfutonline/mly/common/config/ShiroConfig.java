@@ -102,9 +102,9 @@ public class ShiroConfig {
         //sessionManager.setCacheManager(cacheManager());
         sessionManager.setSessionDAO(sessionDAO());
         //设置session失效时间
-        sessionManager.setGlobalSessionTimeout(1800000);
+        sessionManager.setGlobalSessionTimeout(3600000);
         //多久检测一次失效的session
-        sessionManager.setSessionValidationInterval(900000);
+        sessionManager.setSessionValidationInterval(1800000);
         //删除无效的session
         sessionManager.setDeleteInvalidSessions(true);
         //允许session自动验证

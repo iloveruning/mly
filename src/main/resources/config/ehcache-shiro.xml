@@ -151,4 +151,19 @@
            statistics="true">
     </cache>
 
+
+    <!-- 菜单缓存 -->
+    <cache name="sysMenu"
+           maxElementsInMemory="5000"
+           eternal="true"
+           clearOnFlush="false"
+           overflowToDisk="true"
+           diskSpoolBufferSizeMB="1024"
+           maxElementsOnDisk="10000"
+           diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
 </ehcache>

@@ -73,7 +73,7 @@ var vm = new Vue({
 					    data: data,
 					    dataType: "json",
 					    success: function(result){
-							if(result.code == 200){
+							if(result.code === 200){
 								layer.close(index);
 								layer.alert('修改成功', function(index){
 									location.reload();
@@ -114,9 +114,9 @@ var vm = new Vue({
 function routerList(router, menuList){
 	for(var key in menuList){
 		var menu = menuList[key];
-		if(menu.type == 0){
+		if(menu.type === 0){
 			routerList(router, menu.list);
-		}else if(menu.type == 1){
+		}else if(menu.type === 1){
 			router.add('#'+menu.url, function() {
 				var url = window.location.hash;
 				
