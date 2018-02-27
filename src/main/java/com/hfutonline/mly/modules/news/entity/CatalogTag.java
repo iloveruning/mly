@@ -3,35 +3,35 @@ package com.hfutonline.mly.modules.news.entity;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
-import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
+import lombok.Data;
 
 /**
  * 
  * 
  * @author chenliangliang
- * @date 2018-02-21 15:42:00
+ * @date 2018-02-25 21:20:50
  */
 @Data
-@TableName("article_catalog")
-public class ArticleCatalog implements Serializable {
+@TableName("catalog_tag")
+public class CatalogTag implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-
-	private static final long serialVersionUID = 621887456993324547L;
 	/**
-	 * id
+	 * 
 	 */
-	@TableId(type = IdType.AUTO)
-	private Long id;
-	/**
-	 * 文章id
-	 */
-	private Long articleId;
+	    @TableId(type = IdType.AUTO)
+	private Integer id;
 	/**
 	 * 栏目id
 	 */
 	private Integer catalogId;
+	/**
+	 * 标签id
+	 */
+	private Integer tagId;
 
 
 }

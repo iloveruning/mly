@@ -90,9 +90,9 @@ INSERT INTO `sys_menu` (`id`, `pid`, `name`, `url`, `perms`, `type`, `icon`, `or
 
 INSERT INTO `sys_menu`(`id`, `pid`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES (36, 1, '字典管理', 'modules/sys/dict.html', NULL, 1, 'fa fa-bookmark-o', 6);
 INSERT INTO `sys_menu`(`id`, `pid`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES (37, 36, '查看', NULL, 'sys:dict:list,sys:dict:info', 2, NULL, 6);
-INSERT INTO `sys_menu`(`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES (38, 36, '新增', NULL, 'sys:dict:save', 2, NULL, 6);
-INSERT INTO `sys_menu`(`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES (39, 36, '修改', NULL, 'sys:dict:update', 2, NULL, 6);
-INSERT INTO `sys_menu`(`id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES (40, 36, '删除', NULL, 'sys:dict:delete', 2, NULL, 6);
+INSERT INTO `sys_menu`(`id`, `pid`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES (38, 36, '新增', NULL, 'sys:dict:save', 2, NULL, 6);
+INSERT INTO `sys_menu`(`id`, `pid`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES (39, 36, '修改', NULL, 'sys:dict:update', 2, NULL, 6);
+INSERT INTO `sys_menu`(`id`, `pid`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES (40, 36, '删除', NULL, 'sys:dict:delete', 2, NULL, 6);
 
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE `tags` (
@@ -157,18 +157,38 @@ CREATE TABLE `article_catalog` (
 
 DROP TABLE IF EXISTS `app`;
 CREATE TABLE `app` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标识一个注册app应用的id号',
-  `acount` varchar(255) NOT NULL COMMENT '应用的账号',
-  `secret` varchar(255) NOT NULL COMMENT '登录密码',
-  `app_name` varchar(255) NOT NULL COMMENT '应用名称',
-  `ip` varchar(255) NOT NULL COMMENT '允许通过登录的IP',
-  `user_id` int(11) DEFAULT NULL COMMENT '创建应用的管理员ID号',
-  `born_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '应用创建的时间',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '应用更新的时间',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `app_name` varchar(64) NOT NULL COMMENT '应用的名称',
+  `description` varchar(200) NOT NULL COMMENT '描述',
+  `deploy` varchar(100) NOT NULL COMMENT '部署文件夹',
+  `app_key` varchar(128) NOT NULL COMMENT '应用的key',
+  `app_secret` varchar(128) NOT NULL COMMENT '应用的secret',
+  `username` VARCHAR(32) DEFAULT NULL COMMENT '创建应用的管理员',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '应用创建的时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `acount` (`acount`),
-  KEY `user_id` (`user_id`)
+  UNIQUE KEY `app_name` (`app_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='应用表';
+
+CREATE TABLE app_server (
+  id INT NOT NULL AUTO_INCREMENT ,
+  app_id INT NOT NULL ,
+  server_id INT NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ;
+
+
+DROP TABLE IF EXISTS `server`;
+CREATE TABLE `server` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(64) NOT NULL COMMENT '服务器名称',
+  `ip` varchar(32) NOT NULL COMMENT '服务器IP',
+  `password` varchar(64) NOT NULL COMMENT '服务器密码',
+  `sql_type` tinyint(4) NOT NULL COMMENT '数据库类型: 1-mysql,2-sql server,3-oracle',
+  `sql_username` varchar(255) NOT NULL COMMENT '数据库用户名',
+  `sql_password` varchar(255) NOT NULL COMMENT '数据库密码',
+  `username` int(11) DEFAULT NULL COMMENT '管理员',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '应用创建的时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='服务器表';
 
 
 

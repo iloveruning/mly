@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <title>应用表</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" th:href="@{/statics/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/statics/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/statics/plugins/jqgrid/ui.jqgrid-bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/statics/plugins/ztree/css/metroStyle/metroStyle.css}">
+    <link rel="stylesheet" th:href="@{/statics/css/main.css}">
+    <script th:src="@{/statics/libs/jquery.min.js}"></script>
+    <script th:src="@{/statics/plugins/layer/layer.js}"></script>
+    <script th:src="@{/statics/libs/bootstrap.min.js}"></script>
+    <script th:src="@{/statics/libs/vue.min.js}"></script>
+    <script th:src="@{/statics/plugins/jqgrid/grid.locale-cn.js}"></script>
+    <script th:src="@{/statics/plugins/jqgrid/jquery.jqGrid.min.js}"></script>
+    <script th:src="@{/statics/plugins/ztree/jquery.ztree.all.min.js}"></script>
+    <script th:src="@{/statics/js/common.js}"></script>
+
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+
+            <a shiro:hasPermission="web:app:save" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+
+            <a shiro:hasPermission="web:app:update" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+
+            <a shiro:hasPermission="web:app:delete" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label">应用的名称</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="app.appName" placeholder="应用的名称"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">描述</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="app.description" placeholder="描述"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">部署文件夹</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="app.deploy" placeholder="部署文件夹"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">应用的key</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="app.appKey" placeholder="应用的key"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">应用的secret</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="app.appSecret" placeholder="应用的secret"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">创建应用的管理员</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="app.username" placeholder="创建应用的管理员"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">应用创建的时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="app.createTime" placeholder="应用创建的时间"/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/statics/js/modules/web/app.js}"></script>
+</body>
+</html>

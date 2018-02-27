@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hfutonline.mly.modules.web.mapper.AppCatalogMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.hfutonline.mly.modules.web.entity.AppCatalog" id="appCatalogMap">
+        <result property="id" column="id"/>
+        <result property="appId" column="app_id"/>
+        <result property="catalog" column="catalog"/>
+    </resultMap>
+
+
+</mapper>

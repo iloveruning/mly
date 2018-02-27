@@ -57,13 +57,12 @@ public class SysMenuController {
      * 导航菜单
      */
     @GetMapping("/nav")
-    public Result nav() throws Exception {
+    public Result nav() {
         Integer userId = ShiroKit.getUserId();
         return cacheTemplate.cacheable(cacheName, prefix + "nav_" + userId, () -> {
             List<SysMenu> menuList = menuService.getUserMenus(userId);
             return Result.OK().put("menuList", menuList);
         });
-
     }
 
     /**
