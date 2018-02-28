@@ -62,8 +62,8 @@ layui.define(['element'], function(exports){
 		    var $em = $(this).children('em');
 		    if($em.text() === title) {
 			      tabIndex = i;
-		    };
-	    });
+            }
+        });
 	    return tabIndex;
     };
     /**
@@ -105,8 +105,8 @@ layui.define(['element'], function(exports){
 			    ELEM.titleBox.find('li').children('i.layui-tab-close[data-id=' + globalTabIdIndex + ']').on('click', function() {
 			    	element.tabDelete(ELEM.tabFilter, $(this).parent('li').index()).init();
 			    });
-		    };
-		    //切换到当前打开的选项卡
+            }
+            //切换到当前打开的选项卡
 		    element.tabChange(ELEM.tabFilter, ELEM.titleBox.find('li').length - 1);
 		    }else {
 			    element.tabChange(ELEM.tabFilter, tabIndex);

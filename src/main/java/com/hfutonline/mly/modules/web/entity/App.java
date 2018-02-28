@@ -1,12 +1,17 @@
 package com.hfutonline.mly.modules.web.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+import com.hfutonline.mly.common.validator.group.Add;
+import com.hfutonline.mly.common.validator.group.Update;
+import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
+import java.util.List;
 
 /**
  * 应用表
@@ -22,11 +27,12 @@ public class App implements Serializable {
 	/**
 	 * ID
 	 */
-	    @TableId(type = IdType.AUTO)
+	@TableId(type = IdType.AUTO)
 	private Integer id;
 	/**
 	 * 应用的名称
 	 */
+	@NotBlank(message = "应用名不能为空",groups = {Add.class, Update.class})
 	private String appName;
 	/**
 	 * 描述
@@ -52,6 +58,10 @@ public class App implements Serializable {
 	 * 应用创建的时间
 	 */
 	private Date createTime;
+
+
+	@TableField(exist = false)
+	private List<Integer> serverIdList;
 
 
 }

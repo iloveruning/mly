@@ -5,8 +5,9 @@ $(function () {
         colModel: [			
 			{ label: '标签ID', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '标签名字', name: 'name', index: 'name', width: 80 },
+            { label: '标签描述', name: 'description', index: 'description', width: 100 },
 			{ label: '创建者', name: 'username', index: 'username', width: 80 },
-			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 }
+			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 100 }
         ],
 		viewrecords: true,
         height: 385,
@@ -41,6 +42,7 @@ var vm = new Vue({
 		showList: true,
 		title: null,
 		tag: {}
+
 	},
 	methods: {
 		query: function () {

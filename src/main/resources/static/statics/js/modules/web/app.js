@@ -3,14 +3,14 @@ $(function () {
         url: baseURL + 'web/app/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id',align: "center", width: 50, key: true },
+			{ label: 'ID', name: 'id', index: 'id',align: "center", width: 50, key: true },
 			{ label: '应用的名称', name: 'appName', index: 'app_name', width: 80 }, 			
 			{ label: '描述', name: 'description', index: 'description', width: 80 }, 			
 			{ label: '部署文件夹', name: 'deploy', index: 'deploy', width: 80 }, 			
-			{ label: '应用的key', name: 'appKey', index: 'app_key', width: 80 }, 			
-			{ label: '应用的secret', name: 'appSecret', index: 'app_secret', width: 80 }, 			
+			{ label: 'AppKey', name: 'appKey', index: 'app_key', width: 80 },
+			{ label: 'AppSecret', name: 'appSecret', index: 'app_secret', width: 80 },
 			{ label: '创建应用的管理员', name: 'username', index: 'username', width: 80 }, 			
-			{ label: '应用创建的时间', name: 'createTime', index: 'create_time', width: 80 }			
+			{ label: '应用创建的时间', name: 'createTime', index: 'create_time', width: 100 }
         ],
 		viewrecords: true,
         height: 385,
@@ -42,9 +42,15 @@ $(function () {
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+        q:{
+            appName: null
+        },
 		showList: true,
 		title: null,
-		app: {}
+        serverList:{},
+		app: {
+			serverIdList:[]
+		}
 	},
 	methods: {
 		query: function () {
@@ -52,9 +58,18 @@ var vm = new Vue({
 		},
 		add: function(){
 			vm.showList = false;
-			vm.title = "新增";
-			vm.app = {};
+			vm.title = "注册应用";
+            vm.serverList = {};
+            vm.app = {serverIdList:[]};
+
+            //获取服务器信息
+            this.getServerList();
 		},
+        getServerList: function(){
+            $.get(baseURL + "web/server/select", function(r){
+                vm.serverList = r.list;
+            });
+        },
 		update: function (event) {
 			var id = getSelectedRow();
 			if(id == null){
@@ -63,10 +78,15 @@ var vm = new Vue({
 			vm.showList = false;
             vm.title = "修改";
             
-            vm.getInfo(id)
+            vm.getInfo(id);
+            //获取服务器信息
+            this.getServerList();
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.app.id == null ? "web/app/save" : "web/app/update";
+            if(vm.validator()){
+                return ;
+            }
+			var url = vm.app.id == null ? "web/app/register" : "web/app/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -115,9 +135,17 @@ var vm = new Vue({
 		reload: function (event) {
 			vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
-			$("#jqGrid").jqGrid('setGridParam',{ 
+			$("#jqGrid").jqGrid('setGridParam',{
+                postData:{'appName': vm.q.appName},
                 page:page
             }).trigger("reloadGrid");
-		}
+		},
+        validator: function () {
+            if(isBlank(vm.app.appName)){
+                alert("应用名不能为空");
+                return true;
+            }
+
+        }
 	}
 });

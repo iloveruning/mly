@@ -32,6 +32,10 @@ public class Tag implements Serializable {
 	@NotBlank(message = "标签名不能为空")
 	private String name;
 	/**
+	 * 标签的描述
+	 */
+	private String description;
+	/**
 	 * 创建标签的管理员ID号
 	 */
 	private String username;

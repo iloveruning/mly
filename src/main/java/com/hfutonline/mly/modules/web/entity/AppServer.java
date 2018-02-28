@@ -3,10 +3,9 @@ package com.hfutonline.mly.modules.web.entity;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
-import lombok.Data;
 
 /**
  * 
@@ -22,7 +21,7 @@ public class AppServer implements Serializable {
 	/**
 	 * 
 	 */
-	    @TableId(type = IdType.AUTO)
+	@TableId(type = IdType.AUTO)
 	private Integer id;
 	/**
 	 * 应用id

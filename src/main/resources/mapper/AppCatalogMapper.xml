@@ -7,7 +7,7 @@
     <resultMap type="com.hfutonline.mly.modules.web.entity.AppCatalog" id="appCatalogMap">
         <result property="id" column="id"/>
         <result property="appId" column="app_id"/>
-        <result property="catalog" column="catalog"/>
+        <result property="catalogId" column="catalog_id"/>
     </resultMap>
 
 

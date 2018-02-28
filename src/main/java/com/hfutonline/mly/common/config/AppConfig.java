@@ -21,4 +21,21 @@ public class AppConfig {
 
         return executor;
     }
+
+
+    /**
+     * 配置过滤器
+     */
+   /* @Bean
+    public FilterRegistrationBean filterRegistrationBean(ApiRealm apiFilter) {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(new ApiFilter(apiFilter));
+        registration.addUrlPatterns("/open/api/*");
+        registration.addInitParameter("cacheName", "api");
+        registration.setName("apiFilter");
+        return registration;
+    }*/
+
+
+
 }

@@ -128,7 +128,7 @@ var vm = new Vue({
 
             //获取选择的菜单
             var nodes = ztree.getCheckedNodes(true);
-            var menuIdList = new Array();
+            var menuIdList = [];
             for(var i=0; i<nodes.length; i++) {
                 menuIdList.push(nodes[i].id);
             }

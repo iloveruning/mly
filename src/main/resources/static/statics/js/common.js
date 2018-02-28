@@ -33,7 +33,7 @@ window.alert = function(msg, callback){
 			callback("ok");
 		}
 	});
-}
+};
 
 //重写confirm式样框
 window.confirm = function(msg, callback){
@@ -43,7 +43,7 @@ window.confirm = function(msg, callback){
 			callback("ok");
 		}
 	});
-}
+};
 
 //选择一条记录
 function getSelectedRow() {

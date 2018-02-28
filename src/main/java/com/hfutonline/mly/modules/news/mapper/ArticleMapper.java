@@ -26,4 +26,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     Article queryDetail(@Param("id") Long id);
 
+    List<Article> queryIds(@Param("catalogId") Integer catalogId);
+
 }

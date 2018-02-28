@@ -166,4 +166,12 @@
            transactionalMode="off">
     </cache>
 
+    <!-- api -->
+    <cache name="api"
+          maxElementsInMemory="100"
+           eternal="true"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+
 </ehcache>

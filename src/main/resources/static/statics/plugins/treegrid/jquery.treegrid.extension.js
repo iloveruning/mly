@@ -31,7 +31,7 @@
         // 得到根节点
         target.getRootNodes = function(data) {
             // 指定Root节点值
-            var _root = options.rootCodeValue?options.rootCodeValue:null
+            var _root = options.rootCodeValue?options.rootCodeValue:null;
             var result = [];
             $.each(data, function(index, item) {
                 // 这里兼容几种常见Root节点写法
@@ -92,7 +92,7 @@
                     tr.append(td);
                 }
             });
-        }
+        };
         // 加载数据
         target.load = function(parms){
             // 加载数据前先清空
@@ -118,7 +118,7 @@
             var tbody = $('<tbody class="treegrid-tbody"></tbody>');
             target.append(tbody);
             // 添加加载loading
-            var _loading = '<tr><td colspan="'+options.columns.length+'"><div style="display: block;text-align: center;">正在努力地加载数据中，请稍候……</div></td></tr>'
+            var _loading = '<tr><td colspan="'+options.columns.length+'"><div style="display: block;text-align: center;">正在努力地加载数据中，请稍候……</div></td></tr>';
             tbody.html(_loading);
             // 默认高度
             if(options.height){
@@ -133,7 +133,7 @@
                     // 加载完数据先清空
                     tbody.html("");
                     if(!data||data.length<=0){
-                        var _empty = '<tr><td colspan="'+options.columns.length+'"><div style="display: block;text-align: center;">没有记录</div></td></tr>'
+                        var _empty = '<tr><td colspan="'+options.columns.length+'"><div style="display: block;text-align: center;">没有记录</div></td></tr>';
                         tbody.html(_empty);
                         return;
                     }
@@ -188,12 +188,12 @@
                     });
                 },
                 error:function(xhr,textStatus){
-                    var _errorMsg = '<tr><td colspan="'+options.columns.length+'"><div style="display: block;text-align: center;">'+xhr.responseText+'</div></td></tr>'
+                    var _errorMsg = '<tr><td colspan="'+options.columns.length+'"><div style="display: block;text-align: center;">'+xhr.responseText+'</div></td></tr>';
                     tbody.html(_errorMsg);
                     debugger;
                 },
             });
-        }
+        };
         if (options.url) {
             target.load();
         } else {

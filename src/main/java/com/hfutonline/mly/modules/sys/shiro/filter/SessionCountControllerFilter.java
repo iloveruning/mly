@@ -69,7 +69,7 @@ public class SessionCountControllerFilter extends AccessControlFilter {
     }
 
     @Override
-    protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) throws Exception {
+    protected boolean isAccessAllowed(ServletRequest servletRequest, ServletResponse servletResponse, Object o) {
         return false;
     }
 
@@ -132,10 +132,7 @@ public class SessionCountControllerFilter extends AccessControlFilter {
         }
 
         //如果被踢出了，直接退出，重定向到踢出后的地址
-        if (kickout(servletRequest, servletResponse, subject, session)) {
-            return false;
-        }
-        return true;
+        return !kickout(servletRequest, servletResponse, subject, session);
     }
 
     private boolean kickout(ServletRequest servletRequest, ServletResponse servletResponse, Subject subject, Session session) throws IOException {

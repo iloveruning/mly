@@ -159,7 +159,10 @@ public class SysMenuController {
             //PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
             //shiroRealm.clearCachedAuthorization(principals);
             //异步执行
-            ThreadExecutorUtil.execute(shiroRealm::clearAllCachedAuthorizationInfo);
+            ThreadExecutorUtil.execute(()->{
+                shiroRealm.clearAllCachedAuthorizationInfo();
+                cacheTemplate.cacheEvict(cacheName,prefix + "nav_" + ShiroKit.getUserId());
+            });
             return Result.OK();
         } catch (ParamsException e) {
             return Result.error(e.getMsg());

@@ -23,13 +23,19 @@
     <select id="queryList" resultType="com.hfutonline.mly.modules.news.entity.Article">
         SELECT id,title,state,weight,`read`,username,create_time AS createTime
         FROM article
-        ORDER BY createTime DESC
+        ORDER BY create_time DESC
     </select>
 
     <select id="queryDetail" resultType="com.hfutonline.mly.modules.news.entity.Article">
         SELECT title,summary,content,copy_from AS copyFrom,publish_time AS publishTime
         FROM article
         WHERE id=#{id}
+    </select>
+
+    <select id="queryIds" resultType="com.hfutonline.mly.modules.news.entity.Article">
+        SELECT art.article_id AS state FROM catalog_tag AS cat LEFT JOIN article_tag AS art ON cat.tag_id=art.tag_id
+        WHERE cat.catalog_id=#{catalogId}
+
     </select>
 
 

@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+import com.hfutonline.mly.common.validator.group.Add;
+import com.hfutonline.mly.common.validator.group.Update;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 栏目
@@ -26,13 +30,11 @@ public class Catalog implements Serializable {
 	 */
 	@TableId(type = IdType.AUTO)
 	private Integer id;
-	/**
-	 * 父级id
-	 */
-	private Integer pid;
+
 	/**
 	 * 栏目名
 	 */
+	@NotBlank(message = "栏目名不能为空",groups = {Add.class, Update.class})
 	private String name;
 	/**
 	 * 描述
@@ -54,11 +56,10 @@ public class Catalog implements Serializable {
 	 * 创建时间
 	 */
 	private Date createTime;
-	/**
-	 * 父栏目名称
-	 */
+
+
 	@TableField(exist = false)
-	private String parentName;
+	private List<Integer> tagIdList;
 
 
 }

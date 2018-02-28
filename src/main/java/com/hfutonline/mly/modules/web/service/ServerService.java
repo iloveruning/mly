@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.service.IService;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.modules.web.entity.Server;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,5 +16,7 @@ import java.util.Map;
 public interface ServerService extends IService<Server> {
 
     PageInfo queryPage(Map<String, Object> params);
+
+    List<Server> getBaseInfo();
 }
 

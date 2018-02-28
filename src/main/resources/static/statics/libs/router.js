@@ -80,7 +80,7 @@
 		var self = this;
 
 		self.reload();
-	}
+	};
 
 	/**
 	 * 获取callback

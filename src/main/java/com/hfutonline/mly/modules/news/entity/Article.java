@@ -1,8 +1,10 @@
 package com.hfutonline.mly.modules.news.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -81,6 +83,13 @@ public class Article implements Serializable {
 	 * 新闻最后被修改的时间
 	 */
 	private Date updateTime;
+
+	/**
+	 * 文章综合得分
+	 */
+	@JsonIgnore
+	@TableField(exist = false)
+	private Integer score;
 
 
 }

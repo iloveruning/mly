@@ -16,5 +16,9 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <select id="queryBaseInfo" resultType="com.hfutonline.mly.modules.web.entity.Server">
+        SELECT id,name FROM server
+    </select>
+
 
 </mapper>

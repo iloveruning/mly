@@ -15,5 +15,13 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <select id="queryAppServerIds" resultType="java.lang.Integer">
+        SELECT server_id FROM app_server WHERE app_id=#{appId}
+    </select>
+
+    <select id="queryAppCatalogIds" resultType="java.lang.Integer">
+        SELECT catalog_id FROM app_catalog WHERE app_id=#{appId}
+    </select>
+
 
 </mapper>

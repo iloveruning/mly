@@ -11,6 +11,7 @@ import com.hfutonline.mly.modules.web.service.ServerService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +28,11 @@ public class ServerServiceImpl extends ServiceImpl<ServerMapper, Server> impleme
         page=this.selectPage(page,
                 new EntityWrapper<Server>().like(StringUtils.isNotBlank(username),"username", username));
         return new PageInfo<>(page);
+    }
+
+    @Override
+    public List<Server> getBaseInfo() {
+        return baseMapper.queryBaseInfo();
     }
 
 }

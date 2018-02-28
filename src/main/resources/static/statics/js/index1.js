@@ -33,7 +33,7 @@ layui.config({
 	                                 href: href,
 	                                 icon: icon,
 	                                 title: title
-	                           }
+	                           };
 	                           navtab.tabAdd(data);
 	                       });
 	                   });
@@ -47,7 +47,7 @@ layui.config({
                                  href: href,
                                  icon: icon,
                                  title: title
-                           }
+                           };
                            navtab.tabAdd(data);
 	                    });
 	                }

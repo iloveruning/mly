@@ -7,11 +7,13 @@ import com.hfutonline.mly.common.validator.ValidatorUtils;
 import com.hfutonline.mly.modules.news.entity.Tag;
 import com.hfutonline.mly.modules.news.service.TagService;
 import com.hfutonline.mly.modules.sys.shiro.tool.ShiroKit;
+import com.hfutonline.mly.modules.web.entity.Server;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -98,6 +100,17 @@ public class TagController {
         tagService.deleteBatchIds(Arrays.asList(ids));
 
         return Result.OK();
+    }
+
+    /**
+     * 标签列表
+     */
+    @GetMapping("/select")
+    @RequiresPermissions("news:tag:select")
+    public Result select() {
+        List<Server> list = tagService.getBaseInfo();
+
+        return Result.OK().put("list", list);
     }
 
 }

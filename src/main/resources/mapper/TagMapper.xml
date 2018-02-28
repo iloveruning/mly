@@ -7,9 +7,14 @@
     <resultMap type="com.hfutonline.mly.modules.news.entity.Tag" id="tagMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
+        <result property="description" column="description"/>
         <result property="username" column="username"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
+
+    <select id="queryBaseInfo" resultType="com.hfutonline.mly.modules.web.entity.Server">
+        SELECT id,name FROM tag
+    </select>
 
 
 </mapper>

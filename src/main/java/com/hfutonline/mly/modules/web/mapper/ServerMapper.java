@@ -3,6 +3,8 @@ package com.hfutonline.mly.modules.web.mapper;
 import com.hfutonline.mly.modules.web.entity.Server;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * 服务器表
  * 
@@ -10,5 +12,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @date 2018-02-25 19:42:13
  */
 public interface ServerMapper extends BaseMapper<Server> {
-	
+
+    List<Server> queryBaseInfo();
+
 }
