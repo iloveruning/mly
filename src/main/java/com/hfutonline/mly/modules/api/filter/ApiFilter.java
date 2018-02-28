@@ -2,7 +2,6 @@ package com.hfutonline.mly.modules.api.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.hfutonline.mly.common.utils.Result;
-import com.hfutonline.mly.modules.api.auth.ApiInfo;
 import com.hfutonline.mly.modules.api.auth.ApiRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -10,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
+import springfox.documentation.service.ApiInfo;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
