@@ -4,7 +4,7 @@ server:
         uri-encoding: UTF-8
         max-threads: 1000
         min-spare-threads: 30
-    port: 8080
+    port: 8098
     context-path: /mly
 
 # mysql
@@ -13,7 +13,7 @@ spring:
       name: mly-system
     # 环境 dev|test|prod
     profiles:
-        active: dev
+        active: prod
     # jackson时间格式化
     jackson:
         time-zone: GMT+8
@@ -25,7 +25,7 @@ spring:
             enabled: true
     thymeleaf:
          mode: HTML
-         cache: false  #测试环境建议关闭
+         cache: true  #测试环境建议关闭
     aop:
         proxy-target-class: true #false为启用jdk默认动态代理,true为cglib动态代理
     resources:
@@ -92,9 +92,6 @@ mybatis-plus:
     lazy-loading-enabled: true
     default-executor-type: reuse
     #return-instance-for-empty-row: true
-#logging
-logging:
-  level: debug
 
 management:
   security:

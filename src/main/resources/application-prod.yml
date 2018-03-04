@@ -6,9 +6,9 @@ spring:
             url: jdbc:mysql://localhost:3306/mly?useSSL=false
             username: root
             password: uAiqwVwjJ8-i
-            initial-size: 2
-            max-active: 10
-            min-idle: 1
+            initial-size: 5
+            max-active: 20
+            min-idle: 2
             max-wait: 60000
             pool-prepared-statements: true
             max-pool-prepared-statement-per-connection-size: 20
@@ -33,7 +33,8 @@ spring:
                         multi-statement-allow: true
 
 
+
 #logging
 logging:
-  level: debug
+  level: info
 
