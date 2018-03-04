@@ -17,5 +17,8 @@ public interface ArticleService extends IService<Article> {
     PageInfo queryPage(Map<String, Object> params);
 
     Article getDetail(Long id);
+
+
+    PageInfo<Map<String,Object>> getIdAndTitle(Integer pageNum, Integer pageSize, Integer catalogId);
 }
 

@@ -39,4 +39,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return baseMapper.queryDetail(id);
     }
 
+
+    @Override
+    public PageInfo<Map<String, Object>> getIdAndTitle(Integer pageNum, Integer pageSize, Integer catalogId) {
+        Page<Map<String, Object>> page=new Page<>(pageNum,pageSize);
+        page.setRecords(baseMapper.queryIdAndTitle(page,catalogId));
+        return new PageInfo<>(page);
+    }
+
 }

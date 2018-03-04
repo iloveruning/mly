@@ -6,6 +6,7 @@ import com.hfutonline.mly.modules.news.entity.Article;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文章管理
@@ -26,6 +27,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     Article queryDetail(@Param("id") Long id);
 
-    List<Article> queryIds(@Param("catalogId") Integer catalogId);
+    List<Map<String,Object>> queryIdAndTitle(Pagination page,@Param("catalogId") Integer catalogId);
 
 }

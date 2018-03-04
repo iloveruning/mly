@@ -1,10 +1,9 @@
 package com.hfutonline.mly.modules.api.controller;
 
 import com.hfutonline.mly.common.utils.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.hfutonline.mly.modules.news.service.ArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author chenliangliang
@@ -14,9 +13,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/open/api")
 public class ArticleApi {
 
-    @GetMapping
-    public Result getArticle(@RequestParam("catalogId") Integer catalogId){
-        return Result.OK().put("catalogId",catalogId);
+    private ArticleService articleService;
+
+    @Autowired
+    protected ArticleApi(ArticleService articleService){
+        this.articleService=articleService;
+    }
+
+    @GetMapping("/menu")
+    public Result getArticleTitle(@RequestParam("catalogId") Integer catalogId,
+                             @RequestParam("page") Integer page,
+                             @RequestParam("size") Integer size){
+        return Result.OK().put("page",articleService.getIdAndTitle(page,size,catalogId));
+    }
+
+
+    @GetMapping("/news/{id}")
+    public Result getArticleDetail(@PathVariable("id") Long id){
+
+        return Result.OK().put("news",articleService.getDetail(id));
     }
 
 }

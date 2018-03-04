@@ -2,6 +2,7 @@ package com.hfutonline.mly.modules.api.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.hfutonline.mly.common.utils.Result;
+import com.hfutonline.mly.modules.api.auth.ApiInfo;
 import com.hfutonline.mly.modules.api.auth.ApiRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-import springfox.documentation.service.ApiInfo;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -44,11 +44,9 @@ public class ApiFilter extends GenericFilterBean {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String catalogId = request.getParameter("catalogId");
-        if (StringUtils.isBlank(catalogId)) {
-            response(response, HttpStatus.NOT_FOUND, "catalogId not found");
-            return;
-        }
+
+
+
         String token = request.getHeader("token");
         if (StringUtils.isBlank(token)) {
             //Unauthorized
@@ -64,13 +62,27 @@ public class ApiFilter extends GenericFilterBean {
             return;
         }
 
-        ApiInfo apiInfo = apiRealm.doAuthorization(appId);
-        Integer cid = Integer.valueOf(catalogId);
 
-        if (!apiInfo.canAccess(cid)) {
-            response(response, HttpStatus.UNAUTHORIZED, "权限不足");
-            return;
+        String requestPath = request.getServletPath();
+
+        System.out.println(requestPath);
+        if (StringUtils.equals(requestPath,"/open/api/menu")){
+            String catalogId = request.getParameter("catalogId");
+            if (StringUtils.isBlank(catalogId)) {
+                response(response, HttpStatus.NOT_FOUND, "catalogId not found");
+                return;
+            }
+
+            ApiInfo apiInfo = apiRealm.doAuthorization(appId);
+            Integer cid = Integer.valueOf(catalogId);
+
+            if (!apiInfo.canAccess(cid)) {
+                response(response, HttpStatus.UNAUTHORIZED, "权限不足");
+                return;
+            }
         }
+
+
 
         filterChain.doFilter(request, response);
     }
