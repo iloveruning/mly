@@ -12,7 +12,7 @@ import java.io.OutputStream;
  * @version:1.0
  */
 public abstract class Captcha extends Randoms {
-	protected Font font = new Font(null, Font.ITALIC | Font.BOLD, 28); // 字体
+	protected Font font = new Font("Verdana", Font.ITALIC | Font.BOLD, 28); // 字体
 	protected int len = 5; // 验证码随机字符长度
 	protected int width = 150; // 验证码显示跨度
 	protected int height = 40; // 验证码显示高度

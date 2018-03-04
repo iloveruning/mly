@@ -17,8 +17,9 @@
 package com.hfutonline.mly.modules.sys.controller;
 
 
-import com.google.code.kaptcha.Producer;
 import com.hfutonline.mly.common.utils.Result;
+import com.hfutonline.mly.common.vcode.Captcha;
+import com.hfutonline.mly.common.vcode.GifCaptcha;
 import com.hfutonline.mly.modules.sys.entity.SysUser;
 import com.hfutonline.mly.modules.sys.service.ISysUserService;
 import com.hfutonline.mly.modules.sys.shiro.tool.ShiroKit;
@@ -33,11 +34,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.awt.image.BufferedImage;
 
 /**
  * 登录相关
@@ -53,12 +52,10 @@ public class SysLoginController {
 	private ISysUserService userService;
 
 
-	private Producer producer;
 
 	@Autowired
-	protected SysLoginController(ISysUserService userService,Producer producer){
+	protected SysLoginController(ISysUserService userService){
 		this.userService=userService;
-		this.producer=producer;
 	}
 
 	
@@ -69,26 +66,21 @@ public class SysLoginController {
 			response.setHeader("Pragma", "No-cache");
 			response.setHeader("Cache-Control", "no-cache");
 			response.setDateHeader("Expires", 0);
-			//response.setContentType("image/gif");
-			response.setContentType("image/jpeg");
+			response.setContentType("image/gif");
+			//response.setContentType("image/jpeg");
 
-			//生成文字验证码
-			String text = producer.createText();
-			//生成图片验证码
-			BufferedImage image = producer.createImage(text);
 
-			ImageIO.write(image,"jpg",response.getOutputStream());
 			/**
 			 * gif格式动画验证码
 			 * 宽，高，位数。
 			 */
-//			Captcha captcha = new GifCaptcha(146, 33, 4);
-//			//输出
-//			captcha.out(response.getOutputStream());
+			Captcha captcha = new GifCaptcha(146, 33, 4);
+			//输出
+			captcha.out(response.getOutputStream());
 			//存入Session
 			long expired = System.currentTimeMillis() + 60000;
 			//session.removeAttribute("v_code");
-			request.getSession(true).setAttribute("v_code", text + "#" + expired);
+			request.getSession(true).setAttribute("v_code", captcha.text() + "#" + expired);
 			//System.out.println(captcha.text() + "#" + expired);
 		} catch (Exception e) {
 			log.error("获取验证码异常",e);
