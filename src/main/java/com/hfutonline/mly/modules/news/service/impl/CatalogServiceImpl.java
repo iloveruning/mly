@@ -69,4 +69,9 @@ public class CatalogServiceImpl extends ServiceImpl<CatalogMapper, Catalog> impl
         catalogTagService.saveOrUpdate(catalog.getId(), catalog.getTagIdList());
     }
 
+    @Override
+    public List<Catalog> getCatalogList() {
+        return baseMapper.queryCatalogIdAndName();
+    }
+
 }

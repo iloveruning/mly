@@ -22,5 +22,7 @@ public interface CatalogService extends IService<Catalog> {
     List<Integer> getCatalogTagIds(Integer catalogId);
 
     void update(Catalog catalog);
+
+    List<Catalog> getCatalogList();
 }
 

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.service.IService;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.modules.web.entity.AppCatalog;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,5 +16,8 @@ import java.util.Map;
 public interface AppCatalogService extends IService<AppCatalog> {
 
     PageInfo queryPage(Map<String, Object> params);
+
+
+    void addOrUpdate(Integer id, List<Integer> catalogIdList);
 }
 

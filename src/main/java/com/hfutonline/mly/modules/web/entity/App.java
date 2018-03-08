@@ -63,5 +63,8 @@ public class App implements Serializable {
 	@TableField(exist = false)
 	private List<Integer> serverIdList;
 
+	@TableField(exist = false)
+	private List<Integer> catalogIdList;
+
 
 }

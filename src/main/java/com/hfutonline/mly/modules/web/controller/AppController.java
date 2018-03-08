@@ -1,5 +1,6 @@
 package com.hfutonline.mly.modules.web.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.hfutonline.mly.common.annotation.SysLog;
 import com.hfutonline.mly.common.exception.MlyException;
 import com.hfutonline.mly.common.exception.ParamsException;
@@ -10,8 +11,12 @@ import com.hfutonline.mly.common.utils.Result;
 import com.hfutonline.mly.common.validator.ValidatorUtils;
 import com.hfutonline.mly.common.validator.group.Add;
 import com.hfutonline.mly.common.validator.group.Update;
+import com.hfutonline.mly.modules.news.entity.Catalog;
+import com.hfutonline.mly.modules.news.service.CatalogService;
 import com.hfutonline.mly.modules.sys.shiro.tool.ShiroKit;
 import com.hfutonline.mly.modules.web.entity.App;
+import com.hfutonline.mly.modules.web.entity.AppCatalog;
+import com.hfutonline.mly.modules.web.service.AppCatalogService;
 import com.hfutonline.mly.modules.web.service.AppService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -36,6 +41,10 @@ public class AppController {
 
     private AppService appService;
 
+    private AppCatalogService appCatalogService;
+
+    private CatalogService catalogService;
+
     private EhcacheTemplate cacheTemplate;
 
     private final String cacheName = "app";
@@ -43,8 +52,10 @@ public class AppController {
     private final String prefix = "app_";
 
     @Autowired
-    protected AppController(AppService appService, EhcacheTemplate cacheTemplate) {
+    protected AppController(AppService appService, CatalogService catalogService, AppCatalogService appCatalogService, EhcacheTemplate cacheTemplate) {
         this.appService = appService;
+        this.catalogService = catalogService;
+        this.appCatalogService = appCatalogService;
         this.cacheTemplate = cacheTemplate;
     }
 
@@ -134,6 +145,40 @@ public class AppController {
         }
 
         return Result.OK();
+    }
+
+
+    @PostMapping("/catalog")
+    public Result manageCatalog(@RequestBody App app) {
+        System.out.println(app);
+        try {
+            appCatalogService.addOrUpdate(app.getId(), app.getCatalogIdList());
+            return Result.OK();
+        } catch (TransactionException e) {
+            return Result.error(e.getMessage());
+        }
+
+    }
+
+    @GetMapping("/catalog/select/{appId}")
+    public Result manageCatalog(@PathVariable("appId") Integer appId) {
+
+        List<Catalog> list = catalogService.getCatalogList();
+
+        List<AppCatalog> list1 = appCatalogService.selectList(new EntityWrapper<AppCatalog>().eq("app_id", appId));
+
+        for (AppCatalog appCatalog : list1) {
+            Integer catalogId = appCatalog.getCatalogId();
+            for (Catalog catalog : list) {
+                if (catalog.getId().intValue() == catalogId) {
+                    catalog.setChecked(true);
+                    break;
+                }
+            }
+        }
+
+        return Result.OK().put("list", list);
+
     }
 
 }

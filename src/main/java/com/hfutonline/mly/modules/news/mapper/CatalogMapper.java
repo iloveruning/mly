@@ -15,4 +15,7 @@ import java.util.List;
 public interface CatalogMapper extends BaseMapper<Catalog> {
 
     List<Integer> queryCatalogTagIds(@Param("catalogId") Integer catalogId);
+
+    List<Catalog> queryCatalogIdAndName();
+
 }

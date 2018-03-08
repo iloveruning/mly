@@ -22,8 +22,9 @@ public class ArticleApi {
 
     @GetMapping("/menu")
     public Result getArticleTitle(@RequestParam("catalogId") Integer catalogId,
-                             @RequestParam("page") Integer page,
-                             @RequestParam("size") Integer size){
+                             @RequestParam(value = "page",defaultValue = "1") Integer page,
+                             @RequestParam(value = "size",defaultValue = "8") Integer size){
+
         return Result.OK().put("page",articleService.getIdAndTitle(page,size,catalogId));
     }
 

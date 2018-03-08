@@ -126,4 +126,11 @@ public class CatalogController {
         return Result.OK();
     }
 
+
+    @GetMapping("/select")
+    public Result select() {
+        List<Catalog> list = catalogService.getCatalogList();
+        return Result.OK().put("list",list);
+    }
+
 }

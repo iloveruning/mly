@@ -3,7 +3,7 @@
 
 <mapper namespace="com.hfutonline.mly.modules.news.mapper.CatalogMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.hfutonline.mly.modules.news.entity.Catalog" id="catalogMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
@@ -13,7 +13,16 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
     <select id="queryCatalogTagIds" resultType="java.lang.Integer">
-        SELECT tag_id FROM catalog_tag WHERE catalog_id=#{catalogId}
+        SELECT tag_id
+        FROM catalog_tag
+        WHERE catalog_id = #{catalogId}
+    </select>
+
+    <select id="queryCatalogIdAndName" resultType="com.hfutonline.mly.modules.news.entity.Catalog">
+        SELECT
+            id,
+            name
+        FROM catalog
     </select>
 
 
