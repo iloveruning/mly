@@ -1,5 +1,6 @@
 package com.hfutonline.mly.modules.news.controller;
 
+import com.hfutonline.mly.common.annotation.SysLog;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.common.utils.Result;
 import com.hfutonline.mly.modules.news.entity.Article;
@@ -54,6 +55,7 @@ public class ArticleController {
     /**
      * 审核文章
      */
+    @SysLog("审核文章")
     @GetMapping("/audit/{id}")
     @RequiresPermissions("news:article:audit")
     public Result audit(@PathVariable("id") Long id){
@@ -87,6 +89,7 @@ public class ArticleController {
     /**
      * 修改
      */
+    @SysLog("修改文章")
     @PostMapping("/update")
     @RequiresPermissions("news:article:update")
     public Result update(@RequestBody Article article) {
@@ -98,6 +101,7 @@ public class ArticleController {
     /**
      * 删除
      */
+    @SysLog("删除文章")
     @PostMapping("/delete")
     @RequiresPermissions("news:article:delete")
     public Result delete(@RequestBody Long[]ids) {

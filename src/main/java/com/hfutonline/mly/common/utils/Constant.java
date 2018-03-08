@@ -23,20 +23,29 @@ package com.hfutonline.mly.common.utils;
  * @date 2018/2/18
  */
 public class Constant {
-	/** 超级管理员ID */
-	public static final int SUPER_ADMIN = 1;
-    /** 数据权限过滤 */
-	public static final String SQL_FILTER = "sql_filter";
+    /**
+     * 超级管理员ID
+     */
+    public static final int SUPER_ADMIN = 1;
+
+    /**
+     * 用户正常状态
+     */
+    public static final int USER_STATUS_NORMAL = 1;
+    /**
+     * 用户异常状态
+     */
+    public static final int USER_STATUS_ABNORMAL = 0;
 
 
-	/**
-	 * 菜单类型
-	 */
+    /**
+     * 菜单类型
+     */
     public enum MenuType {
         /**
          * 目录
          */
-    	CATALOG(0),
+        CATALOG(0),
         /**
          * 菜单
          */

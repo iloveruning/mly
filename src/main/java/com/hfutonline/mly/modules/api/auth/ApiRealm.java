@@ -21,9 +21,9 @@ public class ApiRealm implements Realm {
 
     private EhcacheTemplate cacheTemplate;
 
-    private String cacheName = "api";
+    public static String cacheName = "api";
 
-    private String prefix = "apiInfo";
+    public static String prefix = "apiInfo";
 
     @Autowired
     protected ApiRealm(AppService appService, EhcacheTemplate cacheTemplate) {
@@ -63,19 +63,5 @@ public class ApiRealm implements Realm {
         });
     }
 
-    public String getCacheName() {
-        return cacheName;
-    }
 
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setCacheName(String cacheName) {
-        this.cacheName = cacheName;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
 }

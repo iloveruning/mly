@@ -1,6 +1,8 @@
 package com.hfutonline.mly.modules.news.controller;
 
+import com.hfutonline.mly.common.annotation.SysLog;
 import com.hfutonline.mly.common.exception.ParamsException;
+import com.hfutonline.mly.common.utils.EhcacheTemplate;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.common.utils.Result;
 import com.hfutonline.mly.common.validator.ValidatorUtils;
@@ -29,9 +31,16 @@ public class TagController {
 
     private TagService tagService;
 
+    private EhcacheTemplate cacheTemplate;
+
+    private final String cacheName = "tag";
+
+    private final String prefix = "tag_";
+
     @Autowired
-    protected TagController(TagService tagService) {
+    protected TagController(TagService tagService, EhcacheTemplate cacheTemplate) {
         this.tagService = tagService;
+        this.cacheTemplate = cacheTemplate;
     }
 
     /**
@@ -40,9 +49,11 @@ public class TagController {
     @GetMapping("/list")
     @RequiresPermissions("news:tag:list")
     public Result list(@RequestParam Map<String, Object> params) {
-        PageInfo page = tagService.queryPage(params);
+        return cacheTemplate.cacheable(cacheName, prefix + "list_" + params.get("page") + params.get("size"), () -> {
+            PageInfo page = tagService.queryPage(params);
+            return Result.OK().put("page", page);
+        });
 
-        return Result.OK().put("page", page);
     }
 
 
@@ -60,6 +71,7 @@ public class TagController {
     /**
      * 保存
      */
+    @SysLog("新增标签")
     @PostMapping("/save")
     @RequiresPermissions("news:tag:save")
     public Result save(@RequestBody Tag tag) {
@@ -68,6 +80,7 @@ public class TagController {
             ValidatorUtils.validateEntity(tag);
             tag.setUsername(ShiroKit.getUserName());
             tagService.insert(tag);
+            cacheTemplate.clear(cacheName);
         } catch (ParamsException e) {
             return Result.error(e.getMsg());
         }
@@ -77,6 +90,7 @@ public class TagController {
     /**
      * 修改
      */
+    @SysLog("修改标签")
     @PostMapping("/update")
     @RequiresPermissions("news:tag:update")
     public Result update(@RequestBody Tag tag) {
@@ -84,6 +98,7 @@ public class TagController {
         try {
             ValidatorUtils.validateEntity(tag);
             tagService.updateById(tag);
+            cacheTemplate.clear(cacheName);
         } catch (ParamsException e) {
             return Result.error(e.getMsg());
         }
@@ -94,11 +109,12 @@ public class TagController {
     /**
      * 删除
      */
+    @SysLog("删除标签")
     @PostMapping("/delete")
     @RequiresPermissions("news:tag:delete")
     public Result delete(@RequestBody Integer[] ids) {
         tagService.deleteBatchIds(Arrays.asList(ids));
-
+        cacheTemplate.clear(cacheName);
         return Result.OK();
     }
 

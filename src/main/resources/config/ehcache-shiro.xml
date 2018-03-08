@@ -174,4 +174,31 @@
            statistics="true">
     </cache>
 
+
+    <!-- app -->
+    <cache name="app"
+           maxElementsInMemory="100"
+           eternal="true"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+
+
+    <!-- tag -->
+    <cache name="tag"
+           maxElementsInMemory="100"
+           eternal="true"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+
+
+    <!-- catalog -->
+    <cache name="catalog"
+           maxElementsInMemory="100"
+           eternal="true"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+
 </ehcache>

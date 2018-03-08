@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.hfutonline.mly.common.exception.TransactionException;
+import com.hfutonline.mly.common.utils.Constant;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.common.utils.PageQuery;
 import com.hfutonline.mly.modules.sys.entity.SysUser;
@@ -33,16 +34,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private ISysUserRoleService userRoleService;
 
     @Autowired
-    protected SysUserServiceImpl(ISysUserRoleService userRoleService){
-        this.userRoleService=userRoleService;
+    protected SysUserServiceImpl(ISysUserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
     }
 
     @Override
     public PageInfo<SysUser> queryPage(Map<String, Object> params) {
-        String username = (String)params.get("username");
-        Page<SysUser> page=new PageQuery<SysUser>(params).getPageParam();
-        page=this.selectPage(page,
-                new EntityWrapper<SysUser>().like(StringUtils.isNotBlank(username),"username", username));
+        String username = (String) params.get("username");
+        Page<SysUser> page = new PageQuery<SysUser>(params).getPageParam();
+        page = this.selectPage(page,
+                new EntityWrapper<SysUser>().like(StringUtils.isNotBlank(username), "username", username));
         return new PageInfo<>(page);
     }
 
@@ -59,12 +60,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         user.setSalt(salt);
         String password = ShiroKit.md5(user.getPassword(), salt);
         user.setPassword(password);
-       if (!this.insert(user)){
-           throw new com.hfutonline.mly.common.exception.TransactionException("保存用户异常");
-       }
+        if (!this.insert(user)) {
+            throw new com.hfutonline.mly.common.exception.TransactionException("保存用户异常");
+        }
 
-       //保存用户与角色关系
-       userRoleService.saveOrUpdate(user.getId(),user.getRoleIdList());
+        //保存用户与角色关系
+        userRoleService.saveOrUpdate(user.getId(), user.getRoleIdList());
 
     }
 
@@ -73,26 +74,29 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public void update(SysUser user) {
 
 
-        if(org.apache.commons.lang.StringUtils.isBlank(user.getPassword())){
+        if (org.apache.commons.lang.StringUtils.isBlank(user.getPassword())) {
             user.setSalt(null);
             user.setPassword(null);
-        }else{
+        } else {
             String salt = ShiroKit.getRandomSalt(16);
             user.setSalt(salt);
             user.setPassword(ShiroKit.md5(user.getPassword(), salt));
         }
-        if (!this.updateById(user)){
+        if (user.getId() == Constant.SUPER_ADMIN) {
+            user.setStatus(Constant.USER_STATUS_NORMAL);
+        }
+        if (!this.updateById(user)) {
             throw new TransactionException("更新用户信息失败");
         }
         //保存用户与角色关系
-        userRoleService.saveOrUpdate(user.getId(),user.getRoleIdList());
+        userRoleService.saveOrUpdate(user.getId(), user.getRoleIdList());
     }
 
     @Override
     public boolean updatePassword(Integer userId, String password, String newPassword) {
-        SysUser user=new SysUser();
+        SysUser user = new SysUser();
         user.setPassword(newPassword);
-        return this.update(user,new EntityWrapper<SysUser>()
-                .eq("id",userId).eq("password",password));
+        return this.update(user, new EntityWrapper<SysUser>()
+                .eq("id", userId).eq("password", password));
     }
 }

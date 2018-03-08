@@ -71,48 +71,52 @@ public class SysMenuController {
     @GetMapping("/list")
     @RequiresPermissions("sys:menu:list")
     public List<SysMenu> list() {
-        List<SysMenu> menuList = menuService.selectList(new EntityWrapper<SysMenu>().orderBy("order_num", true));
-        //目录
-        List<SysMenu> catlog = new ArrayList<>();
-        //菜单
-        List<SysMenu> menu = new ArrayList<>();
-        //按钮
-        List<SysMenu> button = new ArrayList<>();
 
-        for (SysMenu sysMenu : menuList) {
-            if (sysMenu.getType() == Constant.MenuType.CATALOG.getValue()) {
-                catlog.add(sysMenu);
-            } else if (sysMenu.getType() == Constant.MenuType.MENU.getValue()) {
-                menu.add(sysMenu);
-            } else {
-                button.add(sysMenu);
+        return cacheTemplate.cacheable(cacheName, prefix + "list", () -> {
+            List<SysMenu> menuList = menuService.selectList(new EntityWrapper<SysMenu>().orderBy("order_num", true));
+            //目录
+            List<SysMenu> catlog = new ArrayList<>();
+            //菜单
+            List<SysMenu> menu = new ArrayList<>();
+            //按钮
+            List<SysMenu> button = new ArrayList<>();
+
+            for (SysMenu sysMenu : menuList) {
+                if (sysMenu.getType() == Constant.MenuType.CATALOG.getValue()) {
+                    catlog.add(sysMenu);
+                } else if (sysMenu.getType() == Constant.MenuType.MENU.getValue()) {
+                    menu.add(sysMenu);
+                } else {
+                    button.add(sysMenu);
+                }
             }
-        }
 
-        for (SysMenu b : button) {
+            for (SysMenu b : button) {
+                for (SysMenu m : menu) {
+                    if (b.getPid().intValue() == m.getId().intValue()) {
+                        b.setParentName(m.getName());
+                        break;
+                    }
+                }
+            }
+
             for (SysMenu m : menu) {
-                if (b.getPid().intValue() == m.getId().intValue()) {
-                    b.setParentName(m.getName());
-                    break;
+                for (SysMenu c : catlog) {
+                    if (m.getPid().intValue() == c.getId().intValue()) {
+                        m.setParentName(c.getName());
+                        break;
+                    }
                 }
             }
-        }
 
-        for (SysMenu m : menu) {
-            for (SysMenu c : catlog) {
-                if (m.getPid().intValue() == c.getId().intValue()) {
-                    m.setParentName(c.getName());
-                    break;
-                }
-            }
-        }
+            //释放资源
+            catlog = null;
+            menu = null;
+            button = null;
 
-        //释放资源
-        catlog = null;
-        menu = null;
-        button = null;
+            return menuList;
+        });
 
-        return menuList;
     }
 
     /**
@@ -159,9 +163,10 @@ public class SysMenuController {
             //PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
             //shiroRealm.clearCachedAuthorization(principals);
             //异步执行
-            ThreadExecutorUtil.execute(()->{
+            ThreadExecutorUtil.execute(() -> {
                 shiroRealm.clearAllCachedAuthorizationInfo();
-                cacheTemplate.cacheEvict(cacheName,prefix + "nav_" + ShiroKit.getUserId());
+                cacheTemplate.cacheEvict(cacheName, prefix + "nav_" + ShiroKit.getUserId());
+                cacheTemplate.cacheEvict(cacheName,prefix+"list");
             });
             return Result.OK();
         } catch (ParamsException e) {
@@ -191,6 +196,11 @@ public class SysMenuController {
             //数据校验
             verifyMenu(menu);
             menuService.updateById(menu);
+            ThreadExecutorUtil.execute(() -> {
+                shiroRealm.clearAllCachedAuthorizationInfo();
+                cacheTemplate.cacheEvict(cacheName, prefix + "nav_" + ShiroKit.getUserId());
+                cacheTemplate.cacheEvict(cacheName,prefix+"list");
+            });
             return Result.OK();
         } catch (ParamsException e) {
             return Result.error(e.getMsg());
@@ -204,9 +214,9 @@ public class SysMenuController {
     @PostMapping("/delete")
     @RequiresPermissions("sys:menu:delete")
     public Result delete(@RequestParam("id") Integer menuId) {
-       /* if (menuId <= 45) {
+        if (menuId <= 66) {
             return Result.error("系统菜单，不能删除");
-        }*/
+        }
 
 
         //判断是否有子菜单或按钮
@@ -218,6 +228,11 @@ public class SysMenuController {
 
         try {
             menuService.delete(menuId);
+            ThreadExecutorUtil.execute(() -> {
+                shiroRealm.clearAllCachedAuthorizationInfo();
+                cacheTemplate.cacheEvict(cacheName, prefix + "nav_" + ShiroKit.getUserId());
+                cacheTemplate.cacheEvict(cacheName,prefix+"list");
+            });
             return Result.OK();
         } catch (TransactionException e) {
             return Result.error(e.getMessage());

@@ -1,5 +1,6 @@
 package com.hfutonline.mly.modules.web.controller;
 
+import com.hfutonline.mly.common.annotation.SysLog;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.common.utils.Result;
 import com.hfutonline.mly.modules.web.entity.Server;
@@ -56,6 +57,7 @@ public class ServerController {
     /**
      * 保存
      */
+    @SysLog("新增服务器")
     @PostMapping("/save")
     @RequiresPermissions("web:server:save")
     public Result save(@RequestBody Server server) {
@@ -67,6 +69,7 @@ public class ServerController {
     /**
      * 修改
      */
+    @SysLog("修改服务器信息")
     @PostMapping("/update")
     @RequiresPermissions("web:server:update")
     public Result update(@RequestBody Server server) {
@@ -78,6 +81,7 @@ public class ServerController {
     /**
      * 删除
      */
+    @SysLog("删除服务器")
     @PostMapping("/delete")
     @RequiresPermissions("web:server:delete")
     public Result delete(@RequestBody Integer[]ids) {

@@ -1,7 +1,10 @@
 package com.hfutonline.mly.modules.web.controller;
 
+import com.hfutonline.mly.common.annotation.SysLog;
+import com.hfutonline.mly.common.exception.MlyException;
 import com.hfutonline.mly.common.exception.ParamsException;
 import com.hfutonline.mly.common.exception.TransactionException;
+import com.hfutonline.mly.common.utils.EhcacheTemplate;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.common.utils.Result;
 import com.hfutonline.mly.common.validator.ValidatorUtils;
@@ -16,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -34,9 +36,16 @@ public class AppController {
 
     private AppService appService;
 
+    private EhcacheTemplate cacheTemplate;
+
+    private final String cacheName = "app";
+
+    private final String prefix = "app_";
+
     @Autowired
-    protected AppController(AppService appService) {
+    protected AppController(AppService appService, EhcacheTemplate cacheTemplate) {
         this.appService = appService;
+        this.cacheTemplate = cacheTemplate;
     }
 
     /**
@@ -45,13 +54,17 @@ public class AppController {
     @GetMapping("/list")
     @RequiresPermissions("web:app:list")
     public Result list(@RequestParam Map<String, Object> params) {
-        PageInfo page = appService.queryPage(ShiroKit.getPrincipal(),params);
-        return Result.OK().put("page", page);
+        return cacheTemplate.cacheable(cacheName, prefix + "list_" + params.toString(), () -> {
+            PageInfo page = appService.queryPage(ShiroKit.getPrincipal(), params);
+            return Result.OK().put("page", page);
+        });
+
     }
 
     /**
      * 注册应用
      */
+    @SysLog("注册应用")
     @PostMapping("/register")
     @RequiresPermissions("web:app:save")
     public Result register(@RequestBody App app) {
@@ -60,6 +73,7 @@ public class AppController {
             ValidatorUtils.validateEntity(app, Add.class);
             app.setUsername(ShiroKit.getUserName());
             appService.register(app);
+            cacheTemplate.clear(cacheName);
             return Result.OK();
         } catch (ParamsException e) {
             return Result.error(HttpStatus.BAD_REQUEST, e.getMsg());
@@ -86,12 +100,14 @@ public class AppController {
     /**
      * 修改
      */
+    @SysLog("修改应用信息")
     @PostMapping("/update")
     @RequiresPermissions("web:app:update")
     public Result update(@RequestBody App app) {
         try {
             ValidatorUtils.validateEntity(app, Update.class);
             appService.update(app);
+            cacheTemplate.clear(cacheName);
             return Result.OK();
         } catch (ParamsException e) {
             return Result.error(HttpStatus.BAD_REQUEST, e.getMsg());
@@ -103,10 +119,19 @@ public class AppController {
     /**
      * 删除
      */
+    @SysLog("删除应用")
     @PostMapping("/delete")
     @RequiresPermissions("web:app:delete")
     public Result delete(@RequestBody Integer[] ids) {
-        appService.deleteBatchIds(Arrays.asList(ids));
+
+        if (ids.length > 0) {
+            try {
+                appService.delete(ids);
+                cacheTemplate.clear(cacheName);
+            } catch (MlyException e) {
+                return Result.error(e.getMsg());
+            }
+        }
 
         return Result.OK();
     }

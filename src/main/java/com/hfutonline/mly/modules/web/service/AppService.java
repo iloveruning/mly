@@ -25,5 +25,7 @@ public interface AppService extends IService<App> {
     void update(App app);
 
     List<Integer> getAppCatalogIdList(Integer appId);
+
+    void delete(Integer[] ids);
 }
 
