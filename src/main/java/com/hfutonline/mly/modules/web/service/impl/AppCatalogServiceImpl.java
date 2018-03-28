@@ -50,7 +50,7 @@ public class AppCatalogServiceImpl extends ServiceImpl<AppCatalogMapper, AppCata
             appCatalog=new AppCatalog();
             appCatalog.setAppId(appId);
             appCatalog.setCatalogId(catalogIdList.get(0));
-            if ( this.insert(appCatalog)){
+            if (!this.insert(appCatalog)){
                 throw new TransactionException("增加应用与栏目的关系失败");
             }
             return;
