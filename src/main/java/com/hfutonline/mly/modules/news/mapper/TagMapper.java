@@ -1,8 +1,8 @@
 package com.hfutonline.mly.modules.news.mapper;
 
-import com.hfutonline.mly.modules.news.entity.Tag;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.hfutonline.mly.modules.web.entity.Server;
+import com.hfutonline.mly.modules.news.entity.Tag;
+import com.hfutonline.mly.modules.news.vo.TagVo;
 
 import java.util.List;
 
@@ -14,5 +14,5 @@ import java.util.List;
  */
 public interface TagMapper extends BaseMapper<Tag> {
 
-    List<Server> queryBaseInfo();
+    List<TagVo> selectTagIdAndName();
 }

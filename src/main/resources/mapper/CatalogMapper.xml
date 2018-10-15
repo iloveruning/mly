@@ -18,10 +18,10 @@
         WHERE catalog_id = #{catalogId}
     </select>
 
-    <select id="queryCatalogIdAndName" resultType="com.hfutonline.mly.modules.news.entity.Catalog">
+    <select id="queryCatalogIdAndName" resultType="com.hfutonline.mly.modules.news.vo.CatalogVo">
         SELECT
-            id,
-            name
+            id catalogId,
+            name catalogName
         FROM catalog
     </select>
 

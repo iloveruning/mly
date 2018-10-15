@@ -3,6 +3,7 @@ package com.hfutonline.mly.modules.news.service;
 import com.baomidou.mybatisplus.service.IService;
 import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.modules.news.entity.Article;
+import com.hfutonline.mly.modules.news.vo.ArticleVo;
 
 import java.util.Map;
 
@@ -16,9 +17,11 @@ public interface ArticleService extends IService<Article> {
 
     PageInfo queryPage(Map<String, Object> params);
 
-    Article getDetail(Long id);
+    ArticleVo getDetail(Long id);
 
 
     PageInfo<Map<String,Object>> getIdAndTitle(Integer pageNum, Integer pageSize, Integer catalogId);
+
+    void save(Article article);
 }
 

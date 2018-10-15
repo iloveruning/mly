@@ -20,45 +20,48 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
+    <update id="increaseReadNum">
+        update article
+        set `read` = `read` + 1
+        where id = #{id}
+    </update>
+
     <select id="queryList" resultType="com.hfutonline.mly.modules.news.entity.Article">
-        SELECT
-            id,
-            title,
-            state,
-            weight,
-            `read`,
-            username,
-            create_time AS createTime
+        SELECT id, title, state, weight, `read`, username, create_time AS createTime
         FROM article
         ORDER BY create_time DESC
     </select>
 
-    <select id="queryDetail" resultType="com.hfutonline.mly.modules.news.entity.Article">
-        SELECT
-            title,
-            summary,
-            content,
-            copy_from    AS copyFrom,
-            publish_time AS publishTime
+    <select id="queryDetail" resultType="com.hfutonline.mly.modules.news.vo.ArticleVo">
+        SELECT id              articleId,
+               title,
+               author,
+               cover,
+               summary,
+               `read`          readNum,
+               content,
+               copy_from    AS copyFrom,
+               publish_time AS publishTime
         FROM article
         WHERE id = #{id}
     </select>
 
     <select id="queryIdAndTitle" resultType="java.util.Map">
-        SELECT
-            t.id    AS id,
-            t.title AS title
-        FROM (SELECT
-                  article.id          AS id,
-                  article.title       AS title,
-                  article.create_time AS create_time,
-                  article.state       AS state
-              FROM catalog_tag AS cat RIGHT JOIN article_tag AS art ON cat.tag_id = art.tag_id
-                  RIGHT JOIN article ON art.article_id = article.id
+        SELECT t.id AS articleId, t.title AS title, t.publish_time AS publishTime, t.summary AS summary
+        FROM (SELECT article.id           AS id,
+                     article.title        AS title,
+                     article.publish_time AS publish_time,
+                     article.state        AS state,
+                     article.weight       AS weight,
+                     article.`read`       AS readNum,
+                     article.summary      AS summary
+              FROM catalog_tag AS cat
+                       RIGHT JOIN article_tag AS art ON cat.tag_id = art.tag_id
+                       RIGHT JOIN article ON art.article_id = article.id
               WHERE cat.catalog_id = #{catalogId}
               GROUP BY art.article_id) AS t
         WHERE t.state > 1
-        ORDER BY t.state DESC, t.create_time DESC
+        ORDER BY t.weight DESC, t.publish_time DESC, t.readNum DESC
 
 
     </select>

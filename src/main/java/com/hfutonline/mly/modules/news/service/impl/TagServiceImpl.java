@@ -8,7 +8,7 @@ import com.hfutonline.mly.common.utils.PageQuery;
 import com.hfutonline.mly.modules.news.entity.Tag;
 import com.hfutonline.mly.modules.news.mapper.TagMapper;
 import com.hfutonline.mly.modules.news.service.TagService;
-import com.hfutonline.mly.modules.web.entity.Server;
+import com.hfutonline.mly.modules.news.vo.TagVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +29,8 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
-    public List<Server> getBaseInfo() {
-        return baseMapper.queryBaseInfo();
+    public List<TagVo> getTagList() {
+        return baseMapper.selectTagIdAndName();
     }
 
 }

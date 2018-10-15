@@ -8,8 +8,8 @@ import com.hfutonline.mly.common.utils.Result;
 import com.hfutonline.mly.common.validator.ValidatorUtils;
 import com.hfutonline.mly.modules.news.entity.Tag;
 import com.hfutonline.mly.modules.news.service.TagService;
+import com.hfutonline.mly.modules.news.vo.TagVo;
 import com.hfutonline.mly.modules.sys.shiro.tool.ShiroKit;
-import com.hfutonline.mly.modules.web.entity.Server;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -124,8 +124,7 @@ public class TagController {
     @GetMapping("/select")
     @RequiresPermissions("news:tag:select")
     public Result select() {
-        List<Server> list = tagService.getBaseInfo();
-
+        List<TagVo> list = tagService.getTagList();
         return Result.OK().put("list", list);
     }
 

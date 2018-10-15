@@ -49,8 +49,6 @@ public class ApiRealm implements Realm {
         } catch (Exception e) {
             return null;
         }
-
-
         return null;
     }
 

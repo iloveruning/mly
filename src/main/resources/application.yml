@@ -104,4 +104,7 @@ info: #定义各种额外的详情给服务端显示
     description: "@project.description@"
     version: "@project.version@"
     spring-boot-version: "@project.parent.version@"
+api-doc:
+  enable: true
+
 

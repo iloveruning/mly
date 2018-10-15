@@ -5,7 +5,7 @@ spring:
         druid:
             url: jdbc:mysql://localhost:3306/mly?useSSL=false
             username: root
-            password: uAiqwVwjJ8-i
+            password: cll123456
             initial-size: 2
             max-active: 10
             min-idle: 1

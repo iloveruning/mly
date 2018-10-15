@@ -82,8 +82,6 @@ public class ApiFilter extends GenericFilterBean {
             }
         }
 
-
-
         filterChain.doFilter(request, response);
     }
 

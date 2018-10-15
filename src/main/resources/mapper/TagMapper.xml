@@ -3,7 +3,7 @@
 
 <mapper namespace="com.hfutonline.mly.modules.news.mapper.TagMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.hfutonline.mly.modules.news.entity.Tag" id="tagMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
@@ -12,8 +12,9 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <select id="queryBaseInfo" resultType="com.hfutonline.mly.modules.web.entity.Server">
-        SELECT id,name FROM tag
+    <select id="selectTagIdAndName" resultType="com.hfutonline.mly.modules.news.vo.TagVo">
+        SELECT id tagId, name tagName
+        FROM tag
     </select>
 
 

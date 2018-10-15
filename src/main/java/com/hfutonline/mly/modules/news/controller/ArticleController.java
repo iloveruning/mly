@@ -5,6 +5,7 @@ import com.hfutonline.mly.common.utils.PageInfo;
 import com.hfutonline.mly.common.utils.Result;
 import com.hfutonline.mly.modules.news.entity.Article;
 import com.hfutonline.mly.modules.news.service.ArticleService;
+import com.hfutonline.mly.modules.news.vo.ArticleVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public class ArticleController {
     @RequiresPermissions("news:article:info")
     public Result detail(@PathVariable("id") Long id){
 
-        Article article=articleService.getDetail(id);
+        ArticleVo article=articleService.getDetail(id);
         return Result.OK().put("article",article);
     }
 

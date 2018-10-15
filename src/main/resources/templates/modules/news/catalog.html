@@ -73,7 +73,7 @@
                 <div class="col-sm-2 control-label">标签匹配</div>
                 <div class="col-sm-10">
                     <label v-for="tag in tagList" class="checkbox-inline">
-                        <input type="checkbox" :value="tag.id" v-model="catalog.tagIdList">{{tag.name}}
+                        <input type="checkbox" :value="tag.tagId" v-model="catalog.tagIdList">{{tag.tagName}}
                     </label>
                 </div>
             </div>

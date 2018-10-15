@@ -3,6 +3,7 @@ package com.hfutonline.mly.modules.news.mapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.hfutonline.mly.modules.news.entity.Article;
+import com.hfutonline.mly.modules.news.vo.ArticleVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -25,8 +26,9 @@ public interface ArticleMapper extends BaseMapper<Article> {
     List<Article> queryList(Pagination page);
 
 
-    Article queryDetail(@Param("id") Long id);
+    ArticleVo queryDetail(@Param("id") Long id);
 
     List<Map<String,Object>> queryIdAndTitle(Pagination page,@Param("catalogId") Integer catalogId);
 
+    void increaseReadNum(@Param("id") Long id);
 }

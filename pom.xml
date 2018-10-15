@@ -34,6 +34,7 @@
 		<commons-lang3.version>3.7</commons-lang3.version>
 		<ehcache.version>2.10.4</ehcache.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
+		<mapstruct.version>1.2.0.Final</mapstruct.version>
 	</properties>
 
 	<dependencies>
@@ -207,10 +208,39 @@
 			<!--<version>${kaptcha.version}</version>-->
 		<!--</dependency>-->
 
+		<!--<dependency>-->
+			<!--<groupId>com.github.llchen</groupId>-->
+			<!--<artifactId>api-doc-processor</artifactId>-->
+			<!--<version>0.3.0</version>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>com.github.llchen</groupId>-->
+			<!--<artifactId>api-doc-core</artifactId>-->
+			<!--<version>0.3.0</version>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>org.mapstruct</groupId>-->
+			<!--<artifactId>mapstruct-jdk8</artifactId>-->
+			<!--<version>${mapstruct.version}</version>-->
+		<!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.mapstruct</groupId>-->
+            <!--<artifactId>mapstruct-processor</artifactId>-->
+            <!--<version>${mapstruct.version}</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
+        <!-- 汉语言处理包 -->
+        <dependency>
+            <groupId>com.hankcs</groupId>
+            <artifactId>hanlp</artifactId>
+            <version>portable-1.6.8</version>
+        </dependency>
 
 
-
-		<!-- OGNL -->
+        <!-- OGNL -->
 		<dependency>
 			<groupId>ognl</groupId>
 			<artifactId>ognl</artifactId>
