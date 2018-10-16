@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.nio.charset.Charset;
 
@@ -18,10 +16,10 @@ import java.nio.charset.Charset;
  * @date 2018/2/23
  */
 @Configuration
-public class AppConfig extends WebMvcConfigurerAdapter {
+public class AppConfig {
 
     @Bean(name = "myExecutor")
-    public ThreadPoolTaskExecutor MyExecutor() {
+    public ThreadPoolTaskExecutor myExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(10);
         executor.setMaxPoolSize(15);
@@ -31,14 +29,29 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return executor;
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/open/api/**")
-                .allowedOrigins("*")
-                .allowedMethods("GET","POST")
-                .allowCredentials(false)
-                .maxAge(7200);
+   /* @Bean
+    public CorsFilter corsFilter(){
+        UrlBasedCorsConfigurationSource configSource= new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config=new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        config.addAllowedOrigin("*");
+        config.setMaxAge(7200L);
+
+        configSource.registerCorsConfiguration("/open/api/**",config);
+        return new CorsFilter(configSource);
     }
+*/
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/open/api/*")
+//                .allowedOrigins("*")
+//                .allowedMethods("GET","POST","OPTIONS")
+//                .allowCredentials(true)
+//                .allowedHeaders("Origin","X-Requested-With","Content-Type","token","Connection","Accept")
+//                .maxAge(7200);
+//    }
 
     //@Bean
     public HttpMessageConverter messageConverter() {
