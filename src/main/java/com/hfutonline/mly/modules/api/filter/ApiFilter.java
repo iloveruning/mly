@@ -65,7 +65,6 @@ public class ApiFilter extends GenericFilterBean {
 
         String requestPath = request.getServletPath();
 
-        System.out.println(requestPath);
         if (StringUtils.equals(requestPath,"/open/api/menu")){
             String catalogId = request.getParameter("catalogId");
             if (StringUtils.isBlank(catalogId)) {
@@ -81,7 +80,12 @@ public class ApiFilter extends GenericFilterBean {
                 return;
             }
         }
-
+        //跨域
+        response.setHeader("Access-Control-Allow-Origin","*");
+        response.setHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS");
+        response.setHeader("Access-Control-Max-Age","7200");
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        response.setHeader("Access-Control-Allow-Headers","Origin,X-Requested-With,Content-Type,token,Accept,Connection");
         filterChain.doFilter(request, response);
     }
 
