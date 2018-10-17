@@ -27,16 +27,13 @@ import java.io.PrintWriter;
  */
 @Slf4j
 @Component
-@WebFilter(urlPatterns = "/open/api/*",filterName = "apiFilter")
+@WebFilter(urlPatterns = "/open/api/*", filterName = "apiFilter")
 public class ApiFilter extends GenericFilterBean {
 
     private ApiRealm apiRealm;
 
-    @Autowired
-    protected ApiFilter(ApiRealm apiRealm){
-        this.apiRealm=apiRealm;
-    }
-
+    private static volatile boolean authToken = true;
+    private static volatile boolean cross = true;
 
 
     @Override
@@ -44,28 +41,42 @@ public class ApiFilter extends GenericFilterBean {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        //token验证
+        if (authToken) {
+            authToken(request, response);
+        }
+        //跨域
+        if (cross) {
+            cross(response);
+        }
+        filterChain.doFilter(request, response);
+    }
 
+    private void cross(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+        response.setHeader("Access-Control-Max-Age", "7200");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,token,Accept,Connection");
 
+    }
 
+    private void authToken(HttpServletRequest request, HttpServletResponse response) {
         String token = request.getHeader("token");
         if (StringUtils.isBlank(token)) {
             //Unauthorized
             response(response, HttpStatus.UNAUTHORIZED, "token not found");
             return;
         }
-
         Integer appId = apiRealm.doAuthentication(token);
-
         if (appId == null) {
-            log.warn(request.getRequestURI()+" |token 认证失败!");
+            log.warn(request.getRequestURI() + " |token 认证失败!");
             response(response, HttpStatus.UNAUTHORIZED, "token 认证失败!");
             return;
         }
 
-
         String requestPath = request.getServletPath();
-
-        if (StringUtils.equals(requestPath,"/open/api/menu")){
+        if (StringUtils.equals(requestPath, "/open/api/menu")) {
             String catalogId = request.getParameter("catalogId");
             if (StringUtils.isBlank(catalogId)) {
                 response(response, HttpStatus.NOT_FOUND, "catalogId not found");
@@ -77,16 +88,8 @@ public class ApiFilter extends GenericFilterBean {
 
             if (!apiInfo.canAccess(cid)) {
                 response(response, HttpStatus.UNAUTHORIZED, "权限不足");
-                return;
             }
         }
-        //跨域
-        response.setHeader("Access-Control-Allow-Origin","*");
-        response.setHeader("Access-Control-Allow-Methods","GET,POST,OPTIONS");
-        response.setHeader("Access-Control-Max-Age","7200");
-        response.setHeader("Access-Control-Allow-Credentials","true");
-        response.setHeader("Access-Control-Allow-Headers","Origin,X-Requested-With,Content-Type,token,Accept,Connection");
-        filterChain.doFilter(request, response);
     }
 
     private void response(HttpServletResponse response, HttpStatus status, String msg) {
@@ -102,6 +105,27 @@ public class ApiFilter extends GenericFilterBean {
 
     }
 
+
+    public static void setAuthToken(boolean authToken) {
+        ApiFilter.authToken = authToken;
+    }
+
+    public static void setCross(boolean cross) {
+        ApiFilter.cross = cross;
+    }
+
+    public static boolean isAuthToken() {
+        return ApiFilter.authToken;
+    }
+
+    public static boolean isCross() {
+        return ApiFilter.cross;
+    }
+
+    @Autowired
+    protected ApiFilter(ApiRealm apiRealm) {
+        this.apiRealm = apiRealm;
+    }
 
 
 }

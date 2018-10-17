@@ -232,6 +232,7 @@ public class ShiroConfig {
         hashMap.put("/loggers/**","anon");
         hashMap.put("/auditevents/**","anon");
 
+        hashMap.put("/control/**","anon");
         hashMap.put("/open/api/**","anon");
 
         hashMap.put("/login", "anon");

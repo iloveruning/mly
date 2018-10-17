@@ -3,7 +3,9 @@ package com.hfutonline.mly.modules.api.auth;
 
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author chenliangliang
@@ -14,14 +16,14 @@ public class ApiInfo {
 
     private Integer appId;
 
-    private List<Integer> catalogIdList;
+    private Set<Integer> catalogIdSet=new HashSet<>();
 
     public ApiInfo(Integer appId, List<Integer> catalogIdList) {
         this.appId = appId;
-        this.catalogIdList = catalogIdList;
+        this.catalogIdSet.addAll(catalogIdList);
     }
 
     public boolean canAccess(Integer catalogId) {
-        return this.catalogIdList != null && this.catalogIdList.contains(catalogId);
+        return this.catalogIdSet.contains(catalogId);
     }
 }

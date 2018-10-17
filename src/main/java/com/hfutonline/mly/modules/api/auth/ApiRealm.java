@@ -34,27 +34,24 @@ public class ApiRealm implements Realm {
 
     @Override
     public Integer doAuthentication(String token) {
-
         String jwtToken = JwtUtil.TOKEN_HEADER + "." + token;
         Map<String, Claim> claims = JwtUtil.getClaimsFromToken(jwtToken);
         if (claims == null) {
             return null;
         }
-
         try {
             Integer appId = Integer.valueOf(claims.get("id").asString());
             if (appId > 0) {
                 return appId;
             }
         } catch (Exception e) {
-            return null;
+            //ignore
         }
         return null;
     }
 
     @Override
     public ApiInfo doAuthorization(Integer appId) {
-
         return cacheTemplate.cacheable(cacheName, prefix + appId, () -> {
             List<Integer> catalogIdList = appService.getAppCatalogIdList(appId);
             return new ApiInfo(appId, catalogIdList);
